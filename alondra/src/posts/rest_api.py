@@ -81,7 +81,7 @@ def post_list(request):
     if request.method == 'POST':
         page = int(request.data.get('page',1))
         post_type = request.data.get('post_type','post')
-        start_date = timezone.now() + datetime.timedelta(-30) 
+        
         f2 = Q(created__gte=start_date  ) 
         f1 = Q(publish=True  ) 
         f3 = Q(post_type=post_type ) 
@@ -118,7 +118,7 @@ def search_list(request):
         query = request.data.get('query',None)
         page = int(request.data.get('page',1))
         post_type = request.data.get('post_type','post')
-        start_date = timezone.now() + datetime.timedelta(-30) 
+        
         f1 = Q()
         f2 = Q(publish=True)
         f4 = Q(post_type=post_type)

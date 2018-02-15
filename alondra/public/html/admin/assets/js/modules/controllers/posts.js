@@ -71,7 +71,7 @@ define(['angular','clipboard'],function(angular,clipboard){
 		$scope.post_list = function(page)
 		{
 
-		    page.list(page).then(function successCallback(response)
+		    Posts.list(page).then(function successCallback(response)
 		    {
 		    	$scope.model.pages = response.data.pages;
 	         	angular.forEach(response.data, function(value, key)
