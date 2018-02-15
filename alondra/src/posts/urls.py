@@ -4,6 +4,7 @@ from utilities.rest_api_urls import router
 
 register_url = True
 urlpatterns = [
+	url(r'^posts/search/{0,1}$', views.search_list),
 	url(r'^posts/{0,1}$', views.post_list),
 	url(r'^post/{0,1}$', views.post),
 	url(r'^post/details/{0,1}$', views.post_details),

@@ -32,11 +32,18 @@ angular.module('app.services.pages', [] )
                 data: data
             });
         },
-        'list': function(){
+        'list': function(page){
             return this.request({
                 'method': "POST",
-                'url': "/pages/",
-                'data': {'post_type':'page'}                     
+                'url': "/posts/",
+                'data': {'post_type':'page','page':page}              
+            });
+        },
+        'search': function(query,page){
+            return this.request({
+                'method': "POST",
+                'url': "/posts/search/",
+                'data': {'post_type':'page','page':page,'query':query}              
             });
         },
         'New': function(data){

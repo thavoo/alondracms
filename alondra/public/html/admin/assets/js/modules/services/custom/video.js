@@ -32,11 +32,18 @@ angular.module('app.services.custom.video', [] )
                 data: data
             });
         },
-        'list': function(){
+        'list': function(page){
             return this.request({
                 'method': "POST",
-                'url': "/videos/",
-                 'data': {'post_type': 'video'}            
+                'url': "/posts/",
+                'data': {'post_type':'video','page':page}              
+            });
+        },
+        'search': function(query,page){
+            return this.request({
+                'method': "POST",
+                'url': "/posts/search/",
+                'data': {'post_type':'video','page':page,'query':query}              
             });
         },
         'New': function(data){

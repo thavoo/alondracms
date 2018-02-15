@@ -32,11 +32,18 @@ angular.module('app.services.custom.games', [] )
                 data: data
             });
         },
-        'list': function(){
+        'list': function(page){
             return this.request({
                 'method': "POST",
-                'url': "/games/",
-                 'data': {'post_type': 'game'}            
+                'url': "/posts/",
+                'data': {'post_type':'game','page':page}              
+            });
+        },
+        'search': function(query,page){
+            return this.request({
+                'method': "POST",
+                'url': "/posts/search/",
+                'data': {'post_type':'game','page':page,'query':query}              
             });
         },
         'New': function(data){

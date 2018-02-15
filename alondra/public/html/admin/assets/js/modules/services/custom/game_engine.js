@@ -32,11 +32,18 @@ angular.module('app.services.custom.game_engine', [] )
                 data: data
             });
         },
-        'list': function(){
+        'list': function(page){
             return this.request({
                 'method': "POST",
-                'url': "/game_engines/",
-                 'data': {'post_type': 'game_engine'}            
+                'url': "/posts/",
+                'data': {'post_type':'game_engine','page':page}              
+            });
+        },
+        'search': function(query,page){
+            return this.request({
+                'method': "POST",
+                'url': "/posts/search/",
+                'data': {'post_type':'game_engine','page':page,'query':query}              
             });
         },
         'New': function(data){

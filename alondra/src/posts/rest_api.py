@@ -24,6 +24,7 @@ from django.db.models.signals import post_save
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
 from navigation.models import NavigationItem
+from utilities.paginator import paginator
 
 class PostCategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -71,20 +72,89 @@ class PostItemSerializer(serializers.HyperlinkedModelSerializer):
             'is_on_feed',
         )
  
+
+
+ 
 @api_view(['POST'])
-@permission_classes((IsAuthenticated,))
 def post_list(request):
         
     if request.method == 'POST':
+        page = int(request.data.get('page',1))
         post_type = request.data.get('post_type','post')
-
-        posts = PostItem.objects.filter(post_type=post_type).order_by('-id')
+        start_date = timezone.now() + datetime.timedelta(-30) 
+        f2 = Q(created__gte=start_date  ) 
+        f1 = Q(publish=True  ) 
+        f3 = Q(post_type=post_type ) 
+        posts = paginator(
+                page, 
+                PostItem.objects.filter(f2 & f1 & f3).order_by("-publish_date",'-id'),
+                100
+            )
+        
         serializer = PostItemSerializer(
             posts, 
             many=True,
             context={'request': request}
         )
-        return Response(serializer.data)
+        next_page = 0
+        previous_page = 0
+        if posts.has_next():
+            next_page = posts.next_page_number()
+        if posts.has_previous():
+            previous_page = posts.previous_page_number()
+
+        return Response({
+            'pages':posts.paginator.num_pages,
+            'items':serializer.data,
+            'next_page':next_page,
+            'previous_page':previous_page,
+        })
+
+@api_view(['POST'])
+def search_list(request):
+        
+    if request.method == 'POST':
+       
+        query = request.data.get('query',None)
+        page = int(request.data.get('page',1))
+        post_type = request.data.get('post_type','post')
+        start_date = timezone.now() + datetime.timedelta(-30) 
+        f1 = Q()
+        f2 = Q(publish=True)
+        f4 = Q(post_type=post_type)
+        if(query is not None):
+            f1 = Q(title__icontains=query)
+            if(query.isdigit() == True):
+                f1 = Q(id=int(query))
+        
+        posts = paginator(
+                page, 
+                PostItem.objects.filter(f1 & f2 & f4).order_by("-publish_date",'-id'),
+                100
+            )
+
+         
+        serializer = PostItemSerializer(
+            posts, 
+            many=True,
+            context={'request': request}
+        )
+        next_page = 0
+        previous_page = 0
+        if posts.has_next():
+            next_page = posts.next_page_number()
+        if posts.has_previous():
+            previous_page = posts.previous_page_number()
+
+        return Response({
+            'pages':posts.paginator.num_pages,
+            'items':serializer.data,
+            'next_page':next_page,
+            'previous_page':previous_page,
+        })
+    return Response(
+                status=status.HTTP_204_NO_CONTENT
+            )
 
 
 @api_view(['POST'])
