@@ -82,12 +82,12 @@ def post_list(request):
         page = int(request.data.get('page',1))
         post_type = request.data.get('post_type','post')
         
-        f2 = Q(created__gte=start_date  ) 
+        
         f1 = Q(publish=True  ) 
         f3 = Q(post_type=post_type ) 
         posts = paginator(
                 page, 
-                PostItem.objects.filter(f2 & f1 & f3).order_by("-publish_date",'-id'),
+                PostItem.objects.filter( f1 & f3).order_by('-id'),
                 100
             )
         
