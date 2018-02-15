@@ -129,7 +129,7 @@ def search_list(request):
         
         posts = paginator(
                 page, 
-                PostItem.objects.filter(f1 & f2 & f4).order_by("-publish_date",'-id'),
+                PostItem.objects.filter(f1 & f2 & f4).order_by('-id'),
                 100
             )
 
