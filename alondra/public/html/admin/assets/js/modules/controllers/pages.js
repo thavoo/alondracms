@@ -49,7 +49,7 @@ define(['angular','clipboard'],function(angular,clipboard){
 			{
 			    $scope.model.pages = response.data.pages;
 				
-			    angular.forEach(response.data, function(value, key)
+			    angular.forEach(response.data.items, function(value, key)
 			    {
 					this.push({
 					 	id: value.id,
@@ -73,7 +73,7 @@ define(['angular','clipboard'],function(angular,clipboard){
 		    Pages.list(page).then(function successCallback(response)
 		    {
 		    	$scope.model.pages = response.data.pages;
-	         	angular.forEach(response.data, function(value, key)
+	         	angular.forEach(response.data.items, function(value, key)
 	         	{
 				 	this.push({
 			        	id: value.id,

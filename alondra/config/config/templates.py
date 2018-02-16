@@ -1,6 +1,6 @@
 import os, sys
 from django.conf import settings
-DEBUG = True
+DEBUG = False
 
 TEMPLATES = [
     {
