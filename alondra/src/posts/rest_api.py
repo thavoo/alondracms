@@ -82,12 +82,11 @@ def post_list(request):
         page = int(request.data.get('page',1))
         post_type = request.data.get('post_type','post')
         
-        
-        f1 = Q(publish=True  ) 
+       
         f3 = Q(post_type=post_type ) 
         posts = paginator(
                 page, 
-                PostItem.objects.filter( f1 & f3).order_by('-id'),
+                PostItem.objects.filter(f3).order_by('-id'),
                 100
             )
         
@@ -120,7 +119,7 @@ def search_list(request):
         post_type = request.data.get('post_type','post')
         
         f1 = Q()
-        f2 = Q(publish=True)
+       
         f4 = Q(post_type=post_type)
         if(query is not None):
             f1 = Q(title__icontains=query)
@@ -129,7 +128,7 @@ def search_list(request):
         
         posts = paginator(
                 page, 
-                PostItem.objects.filter(f1 & f2 & f4).order_by('-id'),
+                PostItem.objects.filter(f1 & f4).order_by('-id'),
                 100
             )
 
