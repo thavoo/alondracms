@@ -95,9 +95,6 @@ def nav_details(request):
     
         if (nav.has_key('children')):
             for children in nav.get('children'):
-
-               
-
                 try:
                     parent = NavigationItem.objects.get(
                         pk=int(nav.get('id'))
