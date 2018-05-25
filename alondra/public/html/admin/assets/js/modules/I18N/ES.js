@@ -87,6 +87,8 @@ define(['angular'],function(angular){
             'EXCERPT_LABEL':'Extracto',
             'MEDIA_ALBUM_PLURAL_LABEL':'Media Albums',
             'MEDIA_ALBUM_LABEL':'Media Album',
+            'ITEMS_PLURAL_LABEL':'Items',
+            'LINK_LABEL':'Link/url'
       });
      
       $translateProvider.preferredLanguage('ES');

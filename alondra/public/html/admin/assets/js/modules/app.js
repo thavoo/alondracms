@@ -30,6 +30,7 @@ define(
         'app.controllers.themes',        
         'app.controllers.login',
         'app.controllers.navigation',
+        'app.controllers.navigation_items',
         'app.services.user',
         'app.services.login',
         'app.services.posts',

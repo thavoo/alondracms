@@ -41,7 +41,36 @@ angular.module('app.services.navigation_items', [] )
                 'data': {'id':id,}                 
             });
         },
-                   
+
+        'New': function(data){
+          
+            return this.request({
+                'method': "POST",
+                'url': "/nav/item/",
+                'data': data              
+            });
+        },
+        'Update': function(data){
+            return this.request({
+                'method': "PUT",
+                'url': "/nav/item/",
+                'data': data       
+            });
+        },
+        'Get': function(id){
+            return this.request({
+                'method': "POST",
+                'url': "/nav/item/details/",
+                'data': {'id':id,}                 
+            });
+        },
+        'Delete': function(id){
+            return this.request({
+                'method': "DELETE",
+                'url': "/nav/item/", 
+                'data': {'id':id}             
+            });
+        },         
         'initialize': function(url){
             this.API_URL = url;         
         }

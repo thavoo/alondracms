@@ -69,8 +69,8 @@ define(['angular','jquery'],function(angular,jquery){
 		};
 
 	}]).controller('NavigationEditCtrl', 
-	[ '$scope','$state','$translate','$stateParams','Posts','Pages','Category','Navigation','NavigationItems',
-	  function ($scope,$state,$translate,$stateParams,Posts,Pages, Category, Navigation, NavigationItems) 
+	[ '$scope','$state','$interval','$translate','$stateParams','Posts','Pages','Category','Navigation','NavigationItems',
+	  function ($scope,$state,$interval,$translate,$stateParams,Posts,Pages, Category, Navigation, NavigationItems) 
 	  {
 
 
@@ -83,7 +83,7 @@ define(['angular','jquery'],function(angular,jquery){
 	  	              
         jquery("#nestable2").nestable({group: 1});   
         jquery("#nestable3").nestable({group: 1});
-        jquery("#nestable4").nestable({group: 1});
+      
 		
 
 		function listify(strarr) {
@@ -97,8 +97,7 @@ define(['angular','jquery'],function(angular,jquery){
 			jquery.each(strarr, function(i, v) {
 			    var c = jquery("<li>").addClass("dd-item"),
 				    h = jquery("<div>").addClass("dd-handle").text(v["title"]);
-				c.attr('data-id',v["item_id"])
-				c.attr('data-nav',v["view_name"])
+				c.attr('data-id',v["id"])
 				c.append(h);
 			    l.append(c.append(h));
 			    if (!!v["parent"] && v["parent"].length > 0)
@@ -112,8 +111,9 @@ define(['angular','jquery'],function(angular,jquery){
 
 
 		
-        NavigationItems.List( $stateParams.id ).then(function successCallback(response){
-
+        
+		NavigationItems.List( $stateParams.id ).then(function successCallback(response)
+		{
         	var d =  listify(response.data);
         	
         	if (d !== null)
@@ -122,10 +122,33 @@ define(['angular','jquery'],function(angular,jquery){
         	}
 	  		
 	  		jquery("#nestable").nestable({group: 1,maxDepth :7}); 
-        });  
+	  	 }); 			
+			
+       
+        function posts()
+        {
+			NavigationItems.List( $stateParams.id ).then(function successCallback(response)
+			{
+ 
+        		$scope.todos = [];
+	         	angular.forEach(response.data, function(value, key){
+				 	this.push({
+			        	id: value.id,
+				        title: value.title,
+				        status: value.publish,
+				        created: value.created,
+				        modified: value.modified,
+			      	});
+			      				      	
+				},$scope.todos);
+	        }); 	
+        	
+        }
+        posts();
+        //$interval(, 2000);
 
-
-        Navigation.Get( $stateParams.id ).then(function successCallback(response){
+        Navigation.Get( $stateParams.id ).then(function successCallback(response)
+        {
 
         	$scope.model.id = $stateParams.id;
         	$scope.model.name = response.data.name;
@@ -134,67 +157,11 @@ define(['angular','jquery'],function(angular,jquery){
         });  
         $scope.Save = function(){
         	$scope.model.navigation = jquery("#nestable").nestable('serialize');
+        	console.log($scope.model.navigation )
         	Navigation.Update($scope.model); 
 	  	}
-  
-	 	$scope.makeTodos = function()
-		{
-			$scope.categories = [];
-		    Category.list().then(function successCallback(response)
-		    {
-	         	angular.forEach(response.data, function(value, key){
-				 	this.push({
-			        	id: value.id,
-				        title: value.name,
-				        nav_type: 'category',	
-				        status: value.publish,
-			      	});
-			      			      	
-				},$scope.categories);
-			
-        	});
 
-		};
-
-      
-		$scope.makeTodos2 = function()
-		{
-			$scope.posts = [];
-			$scope.pages = [];
-		    Posts.list().then(function successCallback(response)
-		    {
-	         	angular.forEach(response.data, function(value, key){
-				 	this.push({
-			        	id: value.id,
-				        title: value.title,
-				        nav_type: 'post_details',
-				        status: value.publish,
-				        created: value.created,
-				        modified: value.modified,
-			      	});
-			      				      	
-				},$scope.posts);
-				
-        	});
-        	Pages.list().then(function successCallback(response)
-		    {
-	         	angular.forEach(response.data, function(value, key){
-				 	this.push({
-			        	id: value.id,
-				        title: value.title,
-				        nav_type: 'page_details',
-				        status: value.publish,
-				        created: value.created,
-				        modified: value.modified,
-			      	});
-			      				      	
-				},$scope.pages);
-				
-        	});
-
-		};
-		$scope.makeTodos();
-		$scope.makeTodos2();
+	
 	}]).controller('NavigationNewCtrl', 
 	[ '$scope','$translate','Posts','Category','Navigation','NavigationItems',
 	  function ($scope,$translate,Posts,Category,Navigation,NavigationItems) 

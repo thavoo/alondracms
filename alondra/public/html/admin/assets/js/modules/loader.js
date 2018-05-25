@@ -22,6 +22,7 @@ require.config({
       "posts_controllers": "modules/controllers/posts",
       "pages_controllers": "modules/controllers/pages",
       "navigation_controllers": "modules/controllers/navigation",
+      "navigation_items_controllers": "modules/controllers/navigation_items",
       "category_controllers": "modules/controllers/category",
       "tags_controllers": "modules/controllers/tags",
       "media_controller": "modules/controllers/media",
@@ -115,6 +116,7 @@ require.config({
           'files_directive',
           'clipboard',
           'navigation_controllers',
+          'navigation_items_controllers',
           'navigation_routers',
           'navigation_services',
           'navigation_items_services',
@@ -281,6 +283,13 @@ require.config({
       'navigation_items_services': {
         deps: ['angular']
       },
+
+      'navigation_items_controllers': {
+        deps: ['angular']
+      },
+
+
+      
 
       'files_directive': {
         deps: ['angular']

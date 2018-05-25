@@ -43,6 +43,30 @@ define(['angular'],function(angular){
               templateUrl: '/admin/assets/js/modules/templates/navigation/new.html',
             } 
           }
+        }).state('root.navigation_item_edit', {
+          url: '/navigation/item/edit/{id:int}',
+          params: {
+            id:{ value: 0}
+          },
+          views: {
+          'content': {
+              controller: 'NavigationItemEditCtrl',
+              templateUrl: '/admin/assets/js/modules/templates/navigation_items/edit.html',
+            } 
+          }
+         
+        })  
+        .state('root.navigation_item_new', {
+          url: '/navigation/item/new/{parent:int}',
+           params: {
+            parent:{ value: 0}
+          },
+          views: {
+          'content': {
+              controller: 'NavigationItemNewCtrl',
+              templateUrl: '/admin/assets/js/modules/templates/navigation_items/edit.html',
+            } 
+          }
         });
       }]);
 

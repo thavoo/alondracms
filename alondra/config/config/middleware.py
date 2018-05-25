@@ -7,7 +7,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'globaly.middleware.SearchMiddleware',
     'posts.middleware.BlogUrlsMiddleware',
-    'navigation.middleware.UrlsMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',

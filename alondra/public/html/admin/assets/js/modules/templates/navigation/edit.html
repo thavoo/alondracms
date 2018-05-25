@@ -26,6 +26,11 @@
                         		{{ 'NAVIGATION_ITEMS_PLURAL_LABEL' | translate}}
                         	</a>
                         </li>
+                        <li class="">
+                            <a href="#pills-3" data-toggle="tab" aria-expanded="false">                         
+                                {{ 'ITEMS_PLURAL_LABEL' | translate}}
+                            </a>
+                        </li>
                      
                     </ul>
                     <div class="tab-content">
@@ -49,64 +54,86 @@
                         </div>
                         <div class="tab-pane" id="pills-2">
 
-                            <div class="input-group">
-                                <input class="form-control" ng-model="query" placeholder="{{'SEARCH_FOR_LABEL' | translate}}" type="text">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" ng-click="search()" type="button">Go!</button>
-                                </span>
-                            </div>
-                           <div class="row">
-                                    <div class="col-md-3">
-                                        <h5>{{ 'NAVIGATION_ITEMS_PLURAL_LABEL' | translate}}</h5>
-                                        <div class="dd" id="nestable">
-                                           
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-md-3">
-                                        <h5>{{ 'POST_PLURAL_LABEL' | translate}}</h5>
-                                        <div class="dd" id="nestable2">
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="{{item.id}}" data-nav="{{item.nav_type}}"  ng-repeat="item in posts " >
-                                                    <div class="dd-handle">{{item.title}}</div>
-                                                </li>
-
-                                               
-                                            </ol>
-                                        </div>
-                                        
-
-
-                                    </div>
-                                    <div class="col-md-3">
-                                        <h5>{{ 'CATEGORY_PLURAL_LABEL' | translate}}</h5>
-                                        <div class="dd" id="nestable3">
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="{{item.id}}" data-nav="{{item.nav_type}}"  ng-repeat="item in categories" >
-                                                    <div class="dd-handle">{{item.title}}</div>
-                                                </li>
-                                             
-                                            </ol>
-                                        </div>
-                                        
-                                    </div>
-                                    <div class="col-md-3">
-                                        <h5>{{ 'PAGES_PLURAL_LABEL' | translate}}</h5>
-                                        <div class="dd" id="nestable4">
-                                            <ol class="dd-list">
-                                                <li class="dd-item" data-id="{{item.id}}" data-nav="{{item.nav_type}}"  ng-repeat="item in pages" >
-                                                    <div class="dd-handle">{{item.title}}</div>
-                                                </li>
-                                             
-                                            </ol>
-                                        </div>
-                                        
-                                    </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <h5>{{ 'NAVIGATION_ITEMS_PLURAL_LABEL' | translate}}</h5>
+                                    <div class="dd" id="nestable"></div>
                                 </div>
+                                
+                               
+                            </div>
                                     
                            
                         </div>
-                       
+                        <div class="tab-pane " id="pills-3">
+                            
+                              
+                            <div class="row">
+                                <div class="dropdown ">
+                                    <div class="btn-group"  data-toggle="dropdown" >
+                                        <button type="button" class="btn btn-default dropdown-toggle">
+                                        {{ 'ACTIONS_LABEL' | translate}}
+                                        </button>
+                                        <button type="button" class="btn btn-defaul dropdown-toggle" >
+                                            <span class="caret"></span>
+                                        </button>                                            
+                                    </div>
+                                    <ul  class="dropdown-menu"> 
+                                        <li><a ui-sref="root.navigation_item_new({parent:model.id})">{{ 'NEW_LABEL' | translate}}</a></li> 
+                                    </ul>
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="form-group ">
+                                    
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><span class="fa fa-search"></span></div>
+                                            <input type="text" ng-model="model.query" class="form-control" placeholder="{{ 'SEARCH_LABEL' | translate}} {{ 'ITEMS_PLURAL_LABEL' | translate}}">
+                                            <span class="input-group-btn">
+                                                <button  ng-click="search()" class="btn btn-primary" type="button">Go!</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                    
+
+                            </div>
+                 
+
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>{{ 'THUMB_LABEL' | translate}}</th>
+                                        <th>{{ 'TITLE_LABEL' | translate}}</th>
+                                        <th>{{ 'ACTIONS_LABEL' | translate}}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in todos" data-id="{{item.id}}">
+                                            
+                                            <td width="65%" >
+                                                <a ui-sref="root.navigation_item_edit({id:item.id})" class="btn btn-primary preview">
+                                                    <strong >{{item.title}}</strong>
+                                                </a>
+                                            </td>
+                                        
+                                         
+                                            <td>
+                                              
+                                                <a ng-click="DELETE(item.id)" class="btn btn-danger">
+                                                     <i class="fa fa-trash"></i>
+                                                </a>
+
+                                            </td>
+                                                                  
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                   
+                           
+                        </div>
                       
                     </div>
                  
