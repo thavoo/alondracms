@@ -1,0 +1,187 @@
+{% extends "layouts/default.html" %}
+{% load posts_tags %}
+{% load game_tags %}
+
+{% load set_var %}
+{% load comment_tags %}
+{% load text_filters %}
+{% load humanize %} 
+{% load tz %}
+{% block content %}
+
+
+<div class=" white-background article">
+    <div class="row">
+        <div class="col-md-4">
+        <img class="img-responsive" src="{{gameinfo.poster}}">
+            <div class="padding-20"><a href="#" class="padding-10 blue font-white"><i class="fa fa-twitter"></i></a><a href="#" class="padding-10 blue2 font-white padding-left-15 padding-right-15"><i class="fa fa-facebook-f"></i></a><a href="#" class="padding-10 background-dark font-white"><i class="fa fa-envelope-o"></i></a></div>
+        </div>
+        <div class="col-md-8">
+            <h1 class="title3 padding-20 border-left-5 text-left no-margin-left">{{gameinfo.title}}</h1>
+            <p class="paragraph padding-5 border-bottom recalculate-font-size no-border">{{gameinfo.description|get_markdown|safe}} </p>
+        </div>
+    </div>
+
+    {% for video in videos %}
+       {% if forloop.first %}
+
+        <div class="videoWrapper margin-bottom-20 background-dark">
+          {% get_oembed_html video.link as oembed_object %}
+          {{oembed_object.html|safe}}
+        </div>
+      {% endif %}
+    {% endfor %}
+    <div class="table-responsive important table margin-top-10">
+        <table class="table table-bordered features">
+            <tbody>
+                <tr>
+                    <td width="70px"><strong>Lanzamiento: </strong> </td>
+                    <td>{{gameinfo.launch_date}}</td>
+                </tr>
+                <tr>
+                    <td width="70px"><strong>Genero: </strong> </td>
+                    <td>{{gameinfo.genre_parent.name}} </td>
+                </tr>
+                <tr>
+                    <td width="70px"><strong>Desarrollador: </strong> </td>
+                    <td>{{gameinfo.developer}}</td>
+                </tr>
+                <tr>
+                    <td width="70px"><strong>Editor: </strong> </td>
+                    <td>{{gameinfo.editor}} </td>
+                </tr>
+                <tr>
+                    <td width="70px"><strong>Estado: </strong> </td>
+                    <td>{{gameinfo.status|get_status}} </td>
+                </tr>
+                <tr>
+                    <td width="70px"><strong>Idioma: </strong> </td>
+                    <td>{{gameinfo.lang}} </td>
+                </tr>
+                <tr>
+                    <td width="70px"><strong>Plataforma: </strong> </td>
+                    <td>{{gameinfo.platform_parent.name}} </td>
+                </tr>
+
+
+
+                <tr>
+                    <td width="70px"><strong>Sitio web: </strong> </td>
+                    <td><a href="{{gameinfo.website}}">Visita el sitio oficial de {{gameinfo.title}}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  <div>
+      <div class="rating-block">
+        <h4>Rating de usuarios</h4>
+        <h5 class="bold padding-bottom-7">4.3 <small>/ 5</small></h5>
+        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+        </button>
+      </div>
+      <a class="btn btn-warning">0 Reviews</a>
+      
+      <button class="btn btn-warning" type="button">
+         <i class="glyphicon glyphicon-comment"></i> 
+          Escribir Review 
+      </button>
+      <div id="RattingUser">
+          <span class="font-bold"> Tu Rating</span>
+          <span>
+            <span class="fa fa-star checked" id="star1" onclick="add(this,1)"></span>
+            <span class="fa fa-star" id="star2" onclick="add(this,2)"></span>
+            <span class="fa fa-star" id="star3" onclick="add(this,3)"></span>
+            <span class="fa fa-star" id="star4" onclick="add(this,4)"></span>
+            <span class="fa fa-star" id="star5" onclick="add(this,5)"></span>
+          </span>
+      </div>
+  </div>
+  <div>
+      <ul class="nav nav-tabs font-bold">
+          <li><a href="#tab-1" role="tab" data-toggle="tab">Imagenes </a></li>
+          <li class="active"><a href="#tab-2" role="tab" data-toggle="tab">Videos </a></li>
+          <li><a href="#tab-3" role="tab" data-toggle="tab">Noticias </a></li>
+      </ul>
+      <div class="tab-content">
+          <div class="tab-pane" role="tabpanel" id="tab-1">
+              <div class="margin-20">
+                  <div class="container-relative margin-bottom-20 padding-bottom-20 padding-bottom-57">
+                      <div class="item">
+                          <div class="container-relative"><a href="#" class="external-link"><i class="glyphicon glyphicon-fullscreen yellow font-white padding-5"></i></a><img class="img-responsive" src="assets/img/newworld01.png"></div>
+                      </div><a href="#" class="next font-white dark"> <i class="glyphicon glyphicon-chevron-right"></i></a><a href="#" class="prev font-white dark"> <i class="glyphicon glyphicon-chevron-left"></i></a></div>
+              </div>
+          </div>
+          <div class="tab-pane active" role="tabpanel" id="tab-2">
+              <div class="margin-20 clearfix">
+                  <div class="col-md-12 white-background no-padding">
+                      <div class="row no-row">
+                          <div class="col-md-6 border-bottom-bach">
+                              <div class="row padding-top-20 padding-bottom-20">
+                                  <div class="col-md-12 col-sm-3"><img class="img-responsive" src="assets/img/mqdefault(3).jpg"></div>
+                                  <div class="col-md-12">
+                                      <div><a href="#" class="title">Black Desert Online está preparando su próxima expansión “Kamasylvia” </a></div>
+                                  </div>
+                              </div>
+                          </div>
+                          
+                          <div class="col-md-12 padding-top-20 padding-bottom-20"><a href="#" class="btn btn-primary pull-right"> MAS JUEGOS</a></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="tab-pane" role="tabpanel" id="tab-3">
+              <div class="margin-20 clearfix">
+                  <div class="col-md-12 white-background no-padding">
+                      <div class="row no-row">
+                          {% get_game_articles gameinfo.title as game_articles %}
+                          {% for post in game_articles %}
+                          <div class="col-md-6 border-bottom-bach">
+                              <div class="row padding-top-20 padding-bottom-20">
+                                 
+                                  <div class="col-md-12 col-sm-3">
+                                     <img class="img-responsive" alt="{{post.title}}" src="{{post.thumbnail}}">
+                                      {% if post.FirstCategory != None %}
+                                      <a class="label label-warning" href="{% url "page_details" slug=post.FirstCategory.slug %}">  
+                                        {{post.FirstCategory.name}} 
+                                      </a>
+                                      {% endif %}
+                                  </div>
+                                  <div class="col-md-12">
+                                      <a href="{% url "page_details" slug=post.slug %}" class="title">{{post.title}}</a>
+                                      <span class="meta"> •
+                                        <time datetime="{{ post.datetime|date:"Y-m-d H:i:s" }}">{{ post.created|naturaltime}}</time> 
+                                      </span>
+                                  </div>
+                                 
+                              </div>
+                          </div>
+                          {% endfor %}
+                          <div class="col-md-12 padding-top-20 padding-bottom-20"><a href="#" class="btn btn-primary pull-right"> MAS JUEGOS</a></div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>       
+   
+     
+
+
+         
+      
+
+{% endblock %}

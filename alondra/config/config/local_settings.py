@@ -31,3 +31,9 @@ AUTHENTICATION_BACKENDS = (
     'user.backends.CustomUserBackend',  
     'django.contrib.auth.backends.ModelBackend',    
 )
+
+TOP_RATED_GAMES = 'http://database.gamajuegos.com/api/games/new/launched/'
+GET_GAME = 'http://database.gamajuegos.com/api/game/get/'
+
+GET_VIDEO = 'http://videodatabase.gamajuegos.com/api/post/parent/list/'
+

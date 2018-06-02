@@ -94,20 +94,16 @@ Blog
 <div class="col-md-3 visible-md-block visible-lg-block md-3-ads no-padding">
   <div class="row">
       <div class="col-md-12 recalculate-font-size">
+          {% get_top_rated_games as get_top_rated_games %}
           <h6 class="title padding-20 border-left-5">Ultimos Lanzamientos</h6>
           <div class="background-dark cover-background">
-              <div class="background-dark cover-background" style="background-image:url(&quot;assets/img/newworld01.png&quot;);">
-                  <div class="padding-20 hover-dark"><a href="#" class="title font-white">Black Desert Online </a></div>
+              {% for post in get_top_rated_games %}
+
+              <div class="background-dark cover-background" style="background-image:url({{post.poster}});">
+                  <div class="padding-20 hover-dark"><a href="/juego/{{post.slug}}" class="title font-white">{{post.title}} </a></div>
               </div>
-              <div class="background-dark cover-background" style="background-image:url(&quot;assets/img/newworld01.png&quot;);">
-                  <div class="padding-20 hover-dark"><a href="#" class="title font-white">Call of Duty: WWII </a></div>
-              </div>
-              <div class="background-dark cover-background" style="background-image:url(&quot;assets/img/newworld01.png&quot;);">
-                  <div class="padding-20 hover-dark"><a href="#" class="title font-white">Horizon: Zero Dawn - The Frozen Wilds </a></div>
-              </div>
-              <div class="background-dark cover-background" style="background-image:url(&quot;assets/img/newworld01.png&quot;);">
-                  <div class="padding-20 hover-dark"><a href="#" class="title font-white">Black Desert Online </a></div>
-              </div>
+              {% endfor %}
+             
           </div>
       </div>
       <div class="col-md-12 recalculate-font-size">

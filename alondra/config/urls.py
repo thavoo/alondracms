@@ -24,6 +24,7 @@ urlpatterns = [
         name='archive'
     ),
     url(r'', include('posts.urls2')),
+    url(r'^', include('game.urls2')),
     url(r'^', include("sitemap.urls")),
     url(r'^', include("rss.urls")),
     #url(r'^mediaframework/', include("media.urls")),
@@ -53,6 +54,7 @@ urlpatterns = [
         ), 
         name='home'
     ),
+   
     url(r'^(?P<slug>[-\w\d]+)/(?P<page>\d+)/{0,1}$',
         TemplateView.as_view(
          template_name='home.html', 

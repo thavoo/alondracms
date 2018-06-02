@@ -7,7 +7,7 @@ from django.db.models import Count
 #from posts.models import PostCategory
 from posts.models import PostItem
 from utilities.paginator import paginator
-from utilities.media import get_oembed,get_oembed_html
+from utilities.media import get_oembed
 from utilities.media import add_img_class
 import mistune
 import json
@@ -30,30 +30,6 @@ def get_features_articles(context, limit=5,post_type="post",exclude=None):
     post = PostItem.objects.filter(  f1 & (f2 | f3)  & f4 & f5 ).order_by("-publish_date",'-id')[:limit]    
     return post
  
-
-@register.assignment_tag(name='get_game_articles', takes_context=True)
-def get_game_articles(context,title=None, limit=10,post_type="post"):
-    page = context.get('page',1)
-    #lt for less than
-    current_date =  timezone.now()
-    print title
-    
-    f6 = Q(title__icontains=title.lower())
-    f8 = Q(title__icontains=title)
-    f7 = Q(content__icontains=title.lower())
-    f9 = Q(content__icontains=title)
-    f1 = Q(publish=True)
-    f2 = Q(publish_date__lte=current_date)
-    f3 = Q(publish_date=None)     
-    f4 = Q(post_type=post_type)    
-
-
-    return paginator(
-            page, 
-            PostItem.objects.filter(((f6 | f8) | (f9 | f7)) & f1 & (f2 | f3) & f4 ).order_by("-publish_date",'-id'),
-            limit
-        ) 
-
 
 @register.assignment_tag(name='get_featured_article', takes_context=True)
 def get_featured_article(context,post_type="post"):
@@ -236,11 +212,16 @@ def get_top_rated_articles(context,limit=5, post_type="post"):
 def get_top_rated_games(context):
     
     r = requests.post(settings.TOP_RATED_GAMES)
-    r.encoding = 'utf-8'
     if r.status_code < 400:
         return json.loads(r.text)
     return []
+@register.assignment_tag(name='get_game_info', takes_context=True)
+def get_game_info(context):
     
+    r = requests.post(settings.GET_GAME,, data = {'slug':'value'})
+    if r.status_code < 400:
+        return json.loads(r.text)
+    return None
 
 
 
@@ -261,17 +242,9 @@ def get_oembed_object(context, item):
         'DotBot'
     ]
     user_agent=request.META.get('HTTP_USER_AGENT',None)
-    #if not user_agent in BotNames:
-    return  get_oembed(item)
+    if not user_agent in BotNames:
+        return  get_oembed(item)
     return  item
-@register.assignment_tag(name='get_oembed_html', takes_context=True)
-def get_oembed_html2(context, item):
-
-    return  get_oembed_html(item)
-
-
-
-
 
 @register.filter
 def get_markdown(item):
@@ -285,6 +258,4 @@ def add_img_class_boostrap(item):
     return add_img_class(item)
 
 
-
-    
     
