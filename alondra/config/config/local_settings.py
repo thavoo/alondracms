@@ -37,3 +37,8 @@ GET_GAME = 'http://database.gamajuegos.com/api/game/get/'
 
 GET_VIDEO = 'http://videodatabase.gamajuegos.com/api/post/parent/list/'
 
+GET_VIDEO_PARENT_LIST = 'http://videodatabase.gamajuegos.com/api/list/parent/'
+
+GET_VIDEO_DETAILS = 'http://videodatabase.gamajuegos.com/api/post/get/'
+
+	

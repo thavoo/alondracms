@@ -35,7 +35,9 @@ def game(request, slug=None):
         headers=headers
     )
     r.encoding = 'utf-8'
-
+    if r.status_code == 204:
+        raise Http404
+        
     if r.status_code < 400:
         try:
             context['gameinfo'] = json.loads(r.text.encode('utf-8'))
@@ -54,10 +56,22 @@ def game(request, slug=None):
                 headers=headers
             )
             r.encoding = 'utf-8'
-            print r.status_code
+            
             if r.status_code < 400:
                 context['videos'] = json.loads(r.text.encode('utf-8'))
-                print context['videos']
+                
+
+            r = requests.post(
+                settings.GET_VIDEO_PARENT_LIST, 
+                data = json.dumps({'parent_id':context['gameinfo'].get('id')}), 
+                headers=headers
+            )
+            r.encoding = 'utf-8'
+            
+            if r.status_code < 400:
+                context['video_items'] = json.loads(r.text.encode('utf-8'))
+                
+
         except ValueError :
             raise Http404
         

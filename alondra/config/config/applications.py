@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'navigation',
     #'contact_form',
     'comments',   
-    'game',   
+    'game',  
+    'video',   
 
 )

@@ -25,6 +25,7 @@ urlpatterns = [
     ),
     url(r'', include('posts.urls2')),
     url(r'^', include('game.urls2')),
+    url(r'^', include('video.urls2')),
     url(r'^', include("sitemap.urls")),
     url(r'^', include("rss.urls")),
     #url(r'^mediaframework/', include("media.urls")),

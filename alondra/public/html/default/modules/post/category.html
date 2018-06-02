@@ -12,7 +12,7 @@
 <!--=================================
 Blog
 =================================-->
-          <div class="row margin-bottom-20">
+          <div class="row">
               <div class="col-md-12 no-padding">
                   <h3 class="title3 padding-20 border-left-5 text-left no-margin-left">{{category.name}} </h3>
               </div>
@@ -21,10 +21,10 @@ Blog
          <br>
     		{% for post in posts %}
           {% if forloop.counter == 1 and forloop.counter < posts|length and page <= 1 %} 
-            <div class="col-md-12 hidden-xs text-left padding-top-10 padding-bottom-10 container-relative recalculate-font-size dark2">
+            <div style="min-height: 384px" class="col-md-12 hidden-xs text-left padding-top-10 padding-bottom-10 container-relative recalculate-font-size dark2">
                   <img class="img-responsive box-inner-shadow" src="{{post.featured_image}}">
                   <div style="padding: 15px; background: #333;" class="text margin-20">
-                    <a href="{% url "page_details" slug=post.slug %}" class="title font-bold font-white">{{post.title}}</a>
+                    <a href="{% url "page_details" slug=post.slug %}" class="title2 font-bold font-white">{{post.title}}</a>
                     <p class="paragraph font-white">{{post.excerpt}} </p>
                   </div>
             </div>
@@ -34,23 +34,17 @@ Blog
                 <div class=" padding-top-20 padding-bottom-20">
                     <div class="col-md-8">
                         <div>
-                             <a href="{% url "page_details" slug=post.slug %}" class="title">{{post.title}}</a>
+                             <a href="{% url "page_details" slug=post.slug %}" class="title">{{post.title}}</a> •
+                             <div class="meta"> 
+                                <time datetime="{{ post.datetime|date:"Y-m-d H:i:s" }}">{{ post.created|naturaltime}}</time> 
+                              </div>
                         </div>
-                        <div>
-                            <span>Por </span>
-                            <a href="#" class="autor">{{post.autor.nick}} </a>
-                            <time  class="font-12" datetime="{{ post.datetime|date:"Y-m-d H:i:s" }}">
-                                Hace {{ post.created|naturaltime}}
-                            </time> 
-                        </div>
-                        
                         <div>
                             <p>{{post.excerpt}} </p>
                         </div>
                     </div>
                     <div class="col-md-4">
-                      <img class="img-responsive" src="{{post.thumbnail}}">
-                    
+                        <img class="img-responsive" src="{{post.thumbnail}}">
                     </div>
                 </div>
               </div>
@@ -75,12 +69,12 @@ Blog
 
         <div class="col-md-12 padding-top-20 padding-bottom-20">
             {% if posts.has_next %}
-              <a rel="nofollow"  href="{% url 'category' slug=slug page=posts.next_page_number %}" class="btn btn-primary pull-right"> Antiguos</a>
+              <a rel="nofollow"  href="{% url 'page_details' slug=slug page=posts.next_page_number %}" class="btn btn-primary pull-right"> Antiguos</a>
             {% endif %}
             {% if posts.has_previous %}
-              <a rel="nofollow" href="{% url 'category' slug=slug page=posts.previous_page_number %}" class="btn  btn-primary pull-right margin-right">Recientes</a>
+              <a rel="nofollow" href="{% url 'page_details' slug=slug page=posts.previous_page_number %}" class="btn  btn-primary pull-right margin-right">Recientes</a>
             {% endif %}
-            <a href="{% url "archive" %}" rel="nofollow" class="btn btn-default"><i class="glyphicon glyphicon-tag"></i> Archivos </a>
+            <a href="{% url "archive" %}" rel="nofollow" class="btn btn-warning"><i class="glyphicon glyphicon-tag"></i> Archivos </a>
         </div>
 
     	  {% endif %} 

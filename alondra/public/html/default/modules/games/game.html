@@ -131,16 +131,17 @@
               <div class="margin-20 clearfix">
                   <div class="col-md-12 white-background no-padding">
                       <div class="row no-row">
+                          {% for video in video_items %}
                           <div class="col-md-6 border-bottom-bach">
                               <div class="row padding-top-20 padding-bottom-20">
-                                  <div class="col-md-12 col-sm-3"><img class="img-responsive" src="assets/img/mqdefault(3).jpg"></div>
+                                  <div class="col-md-12 col-sm-3"><img class="img-responsive" src="{{video.thumbnail}}"></div>
                                   <div class="col-md-12">
-                                      <div><a href="#" class="title">Black Desert Online está preparando su próxima expansión “Kamasylvia” </a></div>
+                                      <div><a href="{% url "video" slug=video.slug %}" class="title">{{video.title}} </a></div>
                                   </div>
                               </div>
                           </div>
+                          {% endfor %}
                           
-                          <div class="col-md-12 padding-top-20 padding-bottom-20"><a href="#" class="btn btn-primary pull-right"> MAS JUEGOS</a></div>
                       </div>
                   </div>
               </div>
@@ -172,7 +173,7 @@
                               </div>
                           </div>
                           {% endfor %}
-                          <div class="col-md-12 padding-top-20 padding-bottom-20"><a href="#" class="btn btn-primary pull-right"> MAS JUEGOS</a></div>
+                         
                       </div>
                   </div>
               </div>
