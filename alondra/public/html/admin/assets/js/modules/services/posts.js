@@ -40,11 +40,11 @@ angular.module('app.services.posts', [] )
                 'data': {'post_type':'post','page':page}              
             });
         },
-        'search': function(query,page){
+        'search': function(data){
             return this.request({
                 'method': "POST",
                 'url': "/posts/search/",
-                'data': {'post_type':'post','page':page,'query':query}              
+                'data':data
             });
         },
         'New': function(data){
@@ -67,6 +67,13 @@ angular.module('app.services.posts', [] )
                 'method': "POST",
                 'url': "/post/details/",
                 'data': {'id':id,}                 
+            });
+        },
+        'Find': function(name){
+            return this.request({
+                'method': "POST",
+                'url': "/post/find/",
+                'data': {'name':name}      
             });
         },
         'Delete': function(id){

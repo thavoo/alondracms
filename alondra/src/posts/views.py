@@ -47,15 +47,21 @@ def post_details(request, slug=None, model=None):
     
     context = {}
     current_date =  timezone.now()
-    f1 = Q(publish=True)
-    f2 = Q(publish_date__lte=current_date)
-    f3 = Q(publish_date=None) 
+    f1 = Q()
+    f2 = Q()
+    f3 = Q()
+    if(request.GET.get('preview','true')=='true'):
+        f1 = Q(publish=True)
+        f2 = Q(publish_date__lte=current_date)
+        f3 = Q(publish_date=None)
+
     f4 = Q(slug=slug)
     f5 = Q(post_type='post') 
 
     if model is None:
         model = get_object_or_404(PostItem, f1 & (f2 | f3) & f4 & f5 )
-    
+    model.hits = model.hits + 1
+    model.save() 
     context['post'] = model
     context['related_posts'] = context['post'].related_posts.filter( 
             f1 & (f2 | f3) 
@@ -70,6 +76,9 @@ def post_details(request, slug=None, model=None):
             
         ] 
     return TemplateResponse(request, template_name, context)
+
+
+
 
 def page_details(request, slug=None, model=None):
     

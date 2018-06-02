@@ -5,3 +5,10 @@ register = template.Library()
 @stringfilter
 def lower(value):
     return value.lower()
+@register.filter
+@stringfilter
+def getfirstword(value):
+    print value.split()
+
+    return value.split()[1]
+

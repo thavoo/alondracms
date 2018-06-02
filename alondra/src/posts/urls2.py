@@ -17,7 +17,10 @@ urlpatterns = [
             views.category,
             name='category'
         ),
-
+    url(r'^category/(?P<slug>[0-9A-Za-z-_]+)/page/(?P<page>\d+)/{0,1}$',
+            views.category,
+            name='category'
+        ),
     url(r'^games/{0,1}$',
             views.games,
             name='games'

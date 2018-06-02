@@ -145,6 +145,17 @@ define(['angular','jquery'],function(angular,jquery){
         	
         }
         posts();
+
+
+
+
+
+		$scope.DELETE = function(id)
+		{
+			NavigationItems.Delete(id).then(function successCallback(response){
+				posts();
+			});
+		}
         //$interval(, 2000);
 
         Navigation.Get( $stateParams.id ).then(function successCallback(response)
@@ -163,8 +174,8 @@ define(['angular','jquery'],function(angular,jquery){
 
 	
 	}]).controller('NavigationNewCtrl', 
-	[ '$scope','$translate','Posts','Category','Navigation','NavigationItems',
-	  function ($scope,$translate,Posts,Category,Navigation,NavigationItems) 
+	[ '$scope','$state','$translate','Navigation','NavigationItems',
+	  function ($scope,$state,$translate,Navigation,NavigationItems) 
 	  {
 
 

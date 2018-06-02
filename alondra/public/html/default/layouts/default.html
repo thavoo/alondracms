@@ -2,7 +2,7 @@
 <html class="no-js" xmlns:og="http://ogp.me/ns#">
 <head>
 	<meta charset="utf-8">
-	<title>{% block title %} {% endblock %}</title>
+	<title>Gamajuegos {% block title %} {% endblock %}</title>
 	<meta name="description" content="{% block description %} {% endblock %}">
 	<meta content="yes" name="apple-mobile-web-app-capable" />
 	<meta name="viewport" content="minimum-scale=1.0, width=device-width, maximum-scale=1, user-scalable=no" />
@@ -19,12 +19,23 @@
 	<link rel="stylesheet" href="{{STATIC_URL}}css/styles.min.css">
 	
 </head>
-<body>
+<body class="padding-top-74">
   	<header>
   	{% include "includes/__header.html" %}
   	</header>
   	<main id="body" class="container">
+  		
 	  	<div class="row">
+	  		<div class="col-md-12 center-text-center ">
+			    <div class="text-center clearfix">
+			        <div class="fancy-box ad ad728">
+			            <div class="fancy_box_body"> <ins class="adsbygoogle"
+			                 style="display:inline-block;width:728px;height:90px"
+			                 data-ad-client="ca-pub-3606690194001059"
+			                 data-ad-slot="5380169445"></ins></div>
+			        </div>
+			    </div>
+			</div>
 	  		{% block featured %}{% endblock %}
 	  		<section class="{% block mainwidth %}col-md-8{% endblock %}">
 	  			{% block content %}{% endblock %}

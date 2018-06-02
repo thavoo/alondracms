@@ -12,6 +12,7 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  		$scope.model.currentpage = 1;
 	  		if($scope.model.query.length > 0)
 	  		{
+	  			$scope.todos = [];
 	  			$scope.search_list(
 				    $scope.model.query,
 				    $scope.model.currentpage
@@ -25,17 +26,23 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  	}
 
 
-		$scope.makeTodos = function(query)
+	$scope.makeTodos = function(query)
 		{
 			$scope.todos = [];
-			var query2 = typeof query !== 'undefined';
+			var query2 = typeof query === 'undefined';
 			if (query2 == false)
 			{
 				$scope.post_list($scope.model.currentpage);
 			}
 			else
 			{
-				$scope.search_list(query,$scope.model.currentpage);
+				if($scope.model.query.length > 0)
+				{
+					$scope.search_list(query,$scope.model.currentpage);
+				}else{
+					$scope.post_list($scope.model.currentpage);
+				}
+				
 			}
 		};
 
@@ -45,7 +52,8 @@ define(['angular','clipboard'],function(angular,clipboard){
 			
 			Posts.search({
 				'query':query,
-				'page':page
+				'page':page,
+				'post_type':'post',
 			}).then(function successCallback(response)
 			{
 			    $scope.model.pages = response.data.pages;
@@ -136,6 +144,7 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  	new clipboard('.btn');
 	  	$scope.model = {
 	  		'title':'',
+	  		'adviable':true,
 	  		'publish': true,
 	  		'post_type': 'post',
 	  		'is_featured': true,
@@ -146,12 +155,16 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  		'featured_image':'',
             'featured_image_text':'',
 	  		'categories_lists': [], 
+	  		'releated_posts':[],
 	  		'tags_lists': [], 
 	  		'content':'',
 	  		'excerpt':'',
 	  		'slug':'',
 	  		'meta_title':'',
-	  		'meta_description':''
+	  		'meta_description':'',
+	  		'query':'',	
+	  		'currentpage':1,
+	  		'pages':1,
 	  	} 
 	  	$scope.query = '';
 		$scope.name = '';
@@ -174,11 +187,16 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  	{
 	  		 $scope.model.meta_title = $scope.model.title
 	  		 $scope.model.slug = window.string_to_slug($scope.model.title)
+
+	  		 Posts.Find($scope.model.title).then(function successCallback(response){
+				$scope.model.adviable  = response.data.adviable;
+			}, function errorCallback(response) {});
 	  	}
 
 	  	Posts.Get( $stateParams.id ).then(function successCallback(response){
 	  			$scope.model.title = response.data.title;
-	  			$scope.model.categories_lists = response.data.categories_lists;	 
+	  			$scope.model.categories_lists = response.data.categories_lists;	
+	  			$scope.model.releated_posts = response.data.related_postsx;	
 	  			$scope.model.tags_lists = response.data.tags_lists;	 			
 	  			$scope.model.publish = response.data.publish;
 	  			$scope.model.publish_date = response.data.publish_date;	 
@@ -195,6 +213,7 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  			$scope.model.slug = response.data.slug;
 	  			$scope.makeTodos();
 	  			$scope.makeTodosMedia();
+	  			$scope.makeTodosPosts();
 
 			}, function errorCallback(response) {});
 	  	
@@ -253,11 +272,23 @@ define(['angular','clipboard'],function(angular,clipboard){
 		    {
 	         	angular.forEach(response.data, function(value, key){
 	         	
+				 	
+	         		var patt = new RegExp("http\:\/\/|https\:\/\/");
+	  				var res = patt.test(value.image);
+	  				var image = value.image;
+		  			if(res == true)
+		  			{
+		  				image = value.image;
+		  			}else{
+
+		  				image =  "/assets/media/" + value.image;
+		  			}
+				 	
 				 	this.push({
 			        	id: value.id,
 				        title: value.title,
 				        status: value.publish,
-				        img: value.image,
+				        img: image,
 				        featured_checked: value.image === $scope.model.featured_image,
 				        thumb_checked: value.image === $scope.model.thumbnail,
 				        created: value.created,
@@ -310,16 +341,174 @@ define(['angular','clipboard'],function(angular,clipboard){
 		  	{
 		  		$scope.model.featured_image = featured_image[0].img;
 		  		$scope.model.featured_image_text =  thumbnail[0].title;
-		  		console.log(featured_image[0].img)
+		  		
 		  	}
 		  	if(thumbnail.length > 0)
 		  	{
 		  		$scope.model.thumbnail = thumbnail[0].img;
 		  		$scope.model.thumbnail_text = thumbnail[0].title;
-		  		console.log(thumbnail[0].img)
+		  		
 		  	}
 		 	Posts.Update($scope.model);
 		}
+
+
+	  	$scope.search_posts = function()
+	  	{	
+	  		$scope.model.currentpage = 1;
+	  		if($scope.model.query.length > 0)
+	  		{
+	  			$scope.todos2 = [];
+	  			$scope.search_list(
+				    $scope.model.query,
+				    $scope.model.currentpage
+				);
+	  		
+	  		}else
+	  		{
+	  			$scope.makeTodosPosts($scope.model.currentpage); 
+	  		}
+	  		
+	  	}
+
+
+		$scope.makeTodosPosts = function(query)
+		{
+			$scope.todos2 = [];
+			var query2 = typeof query === 'undefined';
+			if (query2 == false)
+			{
+				$scope.post_list($scope.model.currentpage);
+			}
+			else
+			{
+				if($scope.model.query.length > 0)
+				{
+					$scope.search_list(query,$scope.model.currentpage);
+				}else{
+					$scope.post_list($scope.model.currentpage);
+				}
+				
+			}
+		};
+
+
+		$scope.search_list = function(query,page)
+		{
+			
+			Posts.search({
+				'query':query,
+				'page':page,
+				'post_type':'post',
+				
+			}).then(function successCallback(response)
+			{
+			    $scope.model.pages = response.data.pages;
+				
+			    angular.forEach(response.data.items, function(value, key)
+			    {
+
+
+					checked =  $scope.model.releated_posts.filter(function(item){
+				              	return item === value.id;
+				          	});
+					this.push({
+					 	id: value.id,
+					    title: value.title,
+					    img: '/admin/assets/img/logo.jpg',
+					    selected: checked.length> 0,
+					    status: value.publish,
+					    created: value.created,
+					    modified: value.modified,
+					});
+					   	
+				},$scope.todos2);
+	       	});
+
+		}
+
+
+
+		$scope.post_list = function(page)
+		{
+
+		    Posts.list(page).then(function successCallback(response)
+		    {
+		    	$scope.model.pages = response.data.pages;
+	         	angular.forEach(response.data.items, function(value, key)
+	         	{
+	         		checked =  $scope.model.releated_posts.filter(function(item){
+				         	return item === value.id;
+				     	});
+				 	this.push({
+			        	id: value.id,
+				        title: value.title,
+				        img: '/admin/assets/img/logo.jpg',
+				         selected: checked.length> 0,
+				        status: value.publish,
+				        created: value.created,
+				        modified: value.modified,
+			      	});
+			      	
+				},$scope.todos2);
+				
+        	}, function errorCallback(response) {});
+
+
+		};
+
+		$scope.selectedItem = function(item)
+		{
+			
+			if(item.selected==false)
+			{
+				
+				var releated_posts = $scope.model.releated_posts.filter(function(value){        
+	              return item.id === value;
+	          	});
+	          	if(releated_posts.length == 0)
+	          	{
+	          		$scope.model.releated_posts.push(item.id);
+	          	}
+				item.selected = true;
+			}else
+			{
+				item.selected = false;
+				$scope.model.releated_posts = $scope.model.releated_posts.filter(function(value){        
+	              return item.id !== value;
+	          	});
+			}
+		};
+
+		$scope.loadmore = function()
+		{
+			if($scope.model.currentpage < $scope.model.pages)
+			{
+				$scope.model.currentpage ++;
+			
+				if ($scope.model.query.length > 0)
+				{
+				    $scope.search_list(
+				    	$scope.model.query,
+				    	$scope.model.currentpage
+				    );
+				}
+				
+				if ($scope.model.query.length == 0)
+				{
+				    $scope.post_list(
+				    	$scope.model.currentpage
+				    );
+				}
+				
+				
+			}
+		}
+		
+
+
+
+
 
 	}]).controller('PostsNewCtrl', 
 	[ '$scope','$state','$translate','$stateParams','Posts','Tags','Category','Media',
@@ -329,6 +518,7 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  	$scope.model = {
 	  		'title':'',
 	  		'publish': true,
+	  		'adviable':true,
 	  		'post_type': 'post',
 	  		'is_featured': true,
 	  		'is_on_feed': true,
@@ -339,11 +529,15 @@ define(['angular','clipboard'],function(angular,clipboard){
             'featured_image_text':'',
 	  		'categories_lists': [], 
 	  		'tags_lists': [], 
+	  		'releated_posts':[],
 	  		'content':'',
 	  		'excerpt':'',
 	  		'slug':'',
 	  		'meta_title':'',
-	  		'meta_description':''
+	  		'meta_description':'',
+	  		'query':'',	
+	  		'currentpage':1,
+	  		'pages':1,
 	  	} 
 		$scope.query = '';
 	  	$scope.search = function()
@@ -360,10 +554,15 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  		}
 	  		
 	  	}
-	  	$scope.ChangeTitle = function()
+		$scope.ChangeTitle = function()
 	  	{
-	  		 $scope.model.meta_title = $scope.model.title
-	  		 $scope.model.slug = window.string_to_slug($scope.model.title)
+	  		$scope.model.meta_title = $scope.model.title;
+	  		$scope.model.slug = window.string_to_slug($scope.model.title);
+
+	  		Posts.Find($scope.model.title).then(function successCallback(response)
+	  		{
+				$scope.model.adviable  = response.data.adviable;
+			}, function errorCallback(response) {});
 	  	}
 	  	$scope.Save = function()
 	  	{
@@ -436,9 +635,162 @@ define(['angular','clipboard'],function(angular,clipboard){
 			      	},$scope.tags);
         	}, function errorCallback(response) {});
 		};
-	  	$scope.makeTodos();
 
+	  	$scope.search_posts = function()
+	  	{	
+
+	  		$scope.model.currentpage = 1;
+	  		if($scope.model.query.length > 0)
+	  		{
+	  			$scope.todos2 = [];
+	  			$scope.search_list(
+				    $scope.model.query,
+				    $scope.model.currentpage
+				);
+	  		
+	  		}else
+	  		{
+	  			$scope.makeTodosPosts($scope.model.currentpage); 
+	  		}
+	  		
+	  	}
+
+		$scope.makeTodosPosts = function(query)
+		{
+			$scope.todos2 = [];
+			var query2 = typeof query === 'undefined';
+			if (query2 == false)
+			{
+				$scope.post_list($scope.model.currentpage);
+			}
+			else
+			{
+				if($scope.model.query.length > 0)
+				{
+					$scope.search_list(query,$scope.model.currentpage);
+				}else{
+					$scope.post_list($scope.model.currentpage);
+				}
+				
+			}
+		};
+
+		$scope.selectedItem = function(item)
+		{
+			
+			if(item.selected==false)
+			{
+				
+				var releated_posts = $scope.model.releated_posts.filter(function(value){        
+	              return item.id === value;
+	          	});
+	          	if(releated_posts.length == 0)
+	          	{
+	          		$scope.model.releated_posts.push(item.id);
+	          	}
+				item.selected = true;
+			}else
+			{
+				item.selected = false;
+				$scope.model.releated_posts = $scope.model.releated_posts.filter(function(value){        
+	              return item.id !== value;
+	          	});
+			}
+		};
+
+
+		$scope.search_list = function(query,page)
+		{
+			
+			Posts.search({
+				'query':query,
+				'page':page,
+				'post_type':'post',
+			}).then(function successCallback(response)
+			{
+			    $scope.model.pages = response.data.pages;
+				
+			    angular.forEach(response.data.items, function(value, key)
+			    {
+					this.push({
+					 	id: value.id,
+					    title: value.title,
+					    img: '/admin/assets/img/logo.jpg',
+					    selected: false,
+					    status: value.publish,
+					    created: value.created,
+					    modified: value.modified,
+					});
+					   	
+				},$scope.todos2);
+	       	});
+
+		}
+
+
+
+		$scope.post_list = function(page)
+		{
+
+		    Posts.list(page).then(function successCallback(response)
+		    {
+		    	$scope.model.pages = response.data.pages;
+	         	angular.forEach(response.data.items, function(value, key)
+	         	{
+				 	this.push({
+			        	id: value.id,
+				        title: value.title,
+				        img: '/admin/assets/img/logo.jpg',
+				        selected: false,
+				        status: value.publish,
+				        created: value.created,
+				        modified: value.modified,
+			      	});
+			      	
+				},$scope.todos2);
+				
+        	}, function errorCallback(response) {});
+
+
+		};
+
+		$scope.loadmore = function()
+		{
+			if($scope.model.currentpage < $scope.model.pages)
+			{
+				$scope.model.currentpage ++;
+			
+				if ($scope.model.query.length > 0)
+				{
+				    $scope.search_list(
+				    	$scope.model.query,
+				    	$scope.model.currentpage
+				    );
+				}
+				
+				if ($scope.model.query.length == 0)
+				{
+				    $scope.post_list(
+				    	$scope.model.currentpage
+				    );
+				}
+				
+				
+			}
+		}
+		
+
+
+
+
+
+	  	$scope.makeTodos();
+	  	$scope.makeTodosPosts();
 	  	$scope.makeTodosMedia();
+
+
+
+
 	}]);
   
 });

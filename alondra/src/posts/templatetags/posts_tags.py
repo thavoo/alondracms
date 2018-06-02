@@ -70,6 +70,8 @@ def get_recent_articles(context, limit=10,post_type="post"):
     f3 = Q(publish_date=None)     
     f4 = Q(post_type=post_type)      
     f5 = Q(is_on_feed=False)  
+
+
     return paginator(
             page, 
             PostItem.objects.filter(f1 & (f2 | f3) & f4 ).exclude(f5).order_by("-publish_date",'-id'),
@@ -177,7 +179,7 @@ def count_articles_by_month(context, post_type="post",month="01"):
     f7 = Q(created__month=month)
            
     posts = PostItem.objects.filter(f1 & (f2 | f3) & f4 & f5 & f7 ).order_by("-publish_date",'-id')
-    print posts     
+      
     return len(posts)
 
 
@@ -192,6 +194,18 @@ def get_articles_by_year(context):
    
     return posts
 
+
+@register.assignment_tag(name='get_top_rated_articles', takes_context=True)
+def get_top_rated_articles(context,limit=5, post_type="post"):
+    
+    current_date =  timezone.now()
+    f1 = Q(publish=True)
+    f2 = Q(publish_date__lte=current_date)
+    f3 = Q(publish_date=None)     
+    f4 = Q(post_type=post_type)          
+    posts = PostItem.objects.filter(f1 & (f2 | f3) & f4  ).annotate(total=Count('hits')).order_by('-hits')[:limit]    
+    
+    return posts
 
 
 

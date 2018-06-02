@@ -7,6 +7,7 @@ urlpatterns = [
 	url(r'^posts/search/{0,1}$', views.search_list),
 	url(r'^posts/{0,1}$', views.post_list),
 	url(r'^post/{0,1}$', views.post),
+	url(r'^post/find/{0,1}$', views.find_post),
 	url(r'^post/details/{0,1}$', views.post_details),
 	url(r'^pages/{0,1}$', views.post_list),
 	url(r'^page/{0,1}$', views.post),

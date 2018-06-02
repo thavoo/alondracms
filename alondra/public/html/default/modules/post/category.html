@@ -8,24 +8,16 @@
 
 {% block content %}
 
-<div class="col-md-12 center-text-center padding-top-20 padding-bottom-20">
 
-     <!-- anunicio-2 -->
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:728px;height:90px"
-                 data-ad-client="ca-pub-3606690194001059"
-                 data-ad-slot="5380169445"></ins>
-
-</div>
 <!--=================================
 Blog
 =================================-->
-        <div class="row no-row padding-top-10 border-bottom padding-bottom-10 margin-bottom-20">
-          <div class="col-md-12">
-              <h3>{{category.name}} </h3>
-
+          <div class="row margin-bottom-20">
+              <div class="col-md-12 no-padding">
+                  <h3 class="title3 padding-20 border-left-5 text-left no-margin-left">{{category.name}} </h3>
+              </div>
           </div>
-        </div>
+        
          <br>
     		{% for post in posts %}
           {% if forloop.counter == 1 and forloop.counter < posts|length and page <= 1 %} 
@@ -57,7 +49,7 @@ Blog
                         </div>
                     </div>
                     <div class="col-md-4">
-                      <img class="img-responsive" src="{{post.featured_image}}">
+                      <img class="img-responsive" src="{{post.thumbnail}}">
                     
                     </div>
                 </div>
@@ -83,12 +75,12 @@ Blog
 
         <div class="col-md-12 padding-top-20 padding-bottom-20">
             {% if posts.has_next %}
-              <a rel="nofollow"  href="{% url 'page_details' slug=slug page=posts.next_page_number %}" class="btn btn-primary pull-right"> Antiguos</a>
+              <a rel="nofollow"  href="{% url 'category' slug=slug page=posts.next_page_number %}" class="btn btn-primary pull-right"> Antiguos</a>
             {% endif %}
             {% if posts.has_previous %}
-              <a rel="nofollow" href="{% url 'page_details' slug=slug page=posts.previous_page_number %}" class="btn  btn-primary pull-right margin-right">Recientes</a>
+              <a rel="nofollow" href="{% url 'category' slug=slug page=posts.previous_page_number %}" class="btn  btn-primary pull-right margin-right">Recientes</a>
             {% endif %}
-            <a rel="nofollow" class="btn btn-default"><i class="glyphicon glyphicon-tag"></i> Archivos </a>
+            <a href="{% url "archive" %}" rel="nofollow" class="btn btn-default"><i class="glyphicon glyphicon-tag"></i> Archivos </a>
         </div>
 
     	  {% endif %} 

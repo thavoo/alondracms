@@ -45,13 +45,14 @@ class PostItemSerializer(serializers.HyperlinkedModelSerializer):
     categories_lists = PostCategorySerializer(source='categories', many=True, read_only = True)
     tags_lists = GlobalyTagsSerializer(source='tags', many=True, read_only = True)
     autor_id = serializers.ReadOnlyField(source='autor.id')
-
+    related_postsx = serializers.SerializerMethodField('get_popularity')
     class Meta:
         model = PostItem
         fields = (
             'id',
             'autor_id',
             'categories_lists',
+            'related_postsx',
             'tags_lists',
             'title',
             'slug',
@@ -72,8 +73,9 @@ class PostItemSerializer(serializers.HyperlinkedModelSerializer):
             'is_on_feed',
         )
  
-
-
+    def get_popularity(self, ob):
+        
+        return ob.RelatedPosts()
  
 @api_view(['POST'])
 def post_list(request):
@@ -189,21 +191,38 @@ def post(request):
         )
         if serializer.is_valid():
               
+            serializer.save(autor=request.user)
             if request.data.has_key('categories_lists'):
+               
                 d = request.data['categories_lists']
                 data = [ value.get('id') for value in d]
-              
                 categories = PostCategory.objects.filter(                   
                     pk__in=data
                 )
-                
                 serializer.save(
-                    autor=request.user,
                     categories=categories                      
                 )
-               
-            else:
-                serializer.save(autor=request.user)
+
+            if request.data.has_key('tag_lists'):
+                t = request.data['tag_lists']
+                data = [ value.get('id') for value in t]
+                tags = GlobalyTags.objects.filter(                   
+                    pk__in=data
+                )
+                serializer.save(
+                   tags=tags                     
+                )
+            if request.data.has_key('releated_posts'):
+                t = request.data['releated_posts']
+                data = [ value for value in t]
+                related_posts = PostItem.objects.filter(                   
+                    pk__in=data
+                )
+                serializer.save(
+                   related_posts=related_posts                     
+                )
+
+                
 
             return Response(serializer.data)
         return Response(
@@ -228,76 +247,38 @@ def post(request):
                 context={'request': request}
             )
             if serializer.is_valid():
-                if request.data.has_key('categories_lists') or \
-                request.data.has_key('tag_lists'):
-                    if request.data.has_key('categories_lists') and \
-                        not request.data.has_key('tag_lists'):
-                        d = request.data['categories_lists']
-                        data = [ value.get('id') for value in d]
-                        categories = PostCategory.objects.filter(                   
-                            pk__in=data
-                        )
-                        serializer.save(
-                            categories=categories                      
-                        )
-
-                    if request.data.has_key('categories_lists') and \
-                        request.data.has_key('tag_lists'):
-                        d = request.data['categories_lists']
-                        t = request.data['tag_lists']
-                        data = [ value.get('id') for value in d]
-                        datat = [ value.get('id') for value in t]
-                        tags = GlobalyTags.objects.filter(                   
-                            pk__in=datat
-                        )
-                        categories = PostCategory.objects.filter(                   
-                            pk__in=data
-                        )
-                        serializer.save(
-                            categories=categories,
-                            tags=tags  
-                        )
-                    if request.data.has_key('tag_lists') and \
-                        not request.data.has_key('categories_lists'):
-                        t = request.data['tag_lists']
-                        data = [ value.get('id') for value in t]
-                        tags = GlobalyTags.objects.filter(                   
-                            pk__in=data
-                        )
-                        serializer.save(
-                           tags=tags                     
-                        )
-
-                else:
-                    serializer.save()
-                instance = serializer.instance
-                try:
-                    f1 = Q(app_label='posts')
-                    f2 = Q(model='PostItem')
-                    i = ContentType.objects.get(
-                        f1 & f2
-                        )
-                    #i.get_object_for_this_type(id=pk)
-                    cType = ContentType.objects.get_for_model( 
-                        i.get_object_for_this_type(id=pk)
+                serializer.save()
+                if request.data.has_key('categories_lists'):
+                   
+                    d = request.data['categories_lists']
+                    data = [ value.get('id') for value in d]
+                    categories = PostCategory.objects.filter(                   
+                        pk__in=data
                     )
-                    #custom view codes here in the future implement signal
-                    post_type = request.data.get('post_type','post')
-                    view_name = "post_details"
-                    
-                    if(post_type=="page"):
-                        view_name = "page_details"
-                    
-                    if(post_type=="game"):
-                        view_name = "game_details"
+                    serializer.save(
+                        categories=categories                      
+                    )
 
-                    parent = NavigationItem.objects.filter(
-                        object_id=pk,
-                        content_type=cType,
-                        view_name=view_name
-                    ).update(slug=request.data.get('slug'))                   
-                except ObjectDoesNotExist:
-                    return None
+                if request.data.has_key('tag_lists'):
+                    t = request.data['tag_lists']
+                    data = [ value.get('id') for value in t]
+                    tags = GlobalyTags.objects.filter(                   
+                        pk__in=data
+                    )
+                    serializer.save(
+                       tags=tags                     
+                    )
+                if request.data.has_key('releated_posts'):
+                    t = request.data['releated_posts']
+                    data = [ value for value in t]
+                    related_posts = PostItem.objects.filter(                   
+                        pk__in=data
+                    )
+                    serializer.save(
+                       related_posts=related_posts                     
+                    )
+
+               
                 return Response(serializer.data)
 
         if request.method == 'DELETE':
@@ -310,6 +291,26 @@ def post(request):
             serializer.errors, 
             status=status.HTTP_400_BAD_REQUEST
         )    
+
+@api_view(['POST'])
+def find_post(request):
+    if request.method == 'POST':
+        try:
+            title = request.data.get('name')
+            adspackages = PostItem.objects.get(
+                title=title,
+                post_type='post',
+            )
+            return Response(
+                {'adviable':False}
+            )
+        except PostItem.DoesNotExist:
+            return Response(
+                {'adviable':True}
+            )
+    return Response(
+                status=status.HTTP_204_NO_CONTENT
+            )
 
 
 @api_view(['GET'])
@@ -383,25 +384,6 @@ def category(request):
             )
             if serializer.is_valid():
                 serializer.save()
-                instance = serializer.instance
-                try:
-                    f1 = Q(app_label='posts')
-                    f2 = Q(model='PostCategory')
-                    i = ContentType.objects.get(
-                        f1 & f2
-                        )
-                         
-                    cType = ContentType.objects.get_for_model(
-                        i.get_object_for_this_type(id=pk)
-                    )
-                    parent = NavigationItem.objects.filter(
-                        object_id=pk,
-                        content_type=cType,
-                        view_name='category'
-                    ).update(slug=request.data.get('slug')) 
-                                   
-                except ObjectDoesNotExist:
-                    return None
                 return Response(serializer.data)
 
         if request.method == 'DELETE':

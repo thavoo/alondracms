@@ -11,6 +11,7 @@ define(['angular','clipboard'],function(angular,clipboard){
 	  		$scope.model.currentpage = 1;
 	  		if($scope.model.query.length > 0)
 	  		{
+	  			$scope.todos = [];
 	  			$scope.search_list(
 				    $scope.model.query,
 				    $scope.model.currentpage
@@ -27,16 +28,23 @@ define(['angular','clipboard'],function(angular,clipboard){
 		$scope.makeTodos = function(query)
 		{
 			$scope.todos = [];
-			var query2 = typeof query !== 'undefined';
+			var query2 = typeof query === 'undefined';
 			if (query2 == false)
 			{
 				$scope.post_list($scope.model.currentpage);
 			}
 			else
 			{
-				$scope.search_list(query,$scope.model.currentpage);
+				if($scope.model.query.length > 0)
+				{
+					$scope.search_list(query,$scope.model.currentpage);
+				}else{
+					$scope.post_list($scope.model.currentpage);
+				}
+				
 			}
 		};
+
 
 
 		$scope.search_list = function(query,page)
@@ -44,7 +52,8 @@ define(['angular','clipboard'],function(angular,clipboard){
 			
 			Pages.search({
 				'query':query,
-				'page':page
+				'page':page,
+				'post_type':'page',
 			}).then(function successCallback(response)
 			{
 			    $scope.model.pages = response.data.pages;

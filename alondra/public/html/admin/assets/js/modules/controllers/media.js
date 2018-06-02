@@ -50,11 +50,24 @@ define(['angular','jquery'],function(angular,jquery){
 		    Media.list().then(function successCallback(response)
 		    {
 	         	angular.forEach(response.data, function(value, key){
+
+	         			
+	         		var patt = new RegExp("http\:\/\/|https\:\/\/");
+	  				var res = patt.test(value.image);
+	  				var image = value.image;
+		  			if(res == true)
+		  			{
+		  				image = value.image;
+		  			}else{
+
+		  				image =  "/assets/media/" + value.image;
+		  			}
+
 				 	this.push({
 			        	id: value.id,
 				        title: value.title,
 				        status: value.publish,
-				        img:  value.image,
+				        img: image,
 				        created: value.created,
 				        modified: value.modified,
 			      	});

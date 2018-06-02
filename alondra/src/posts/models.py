@@ -159,6 +159,10 @@ class PostItem(BaseArticle, BaseDateTime, BaseThumbnailFeatured, BaseSeo):
             choices=POST_TYPES_CHOICES,
             default="post"
         )
+    hits = models.IntegerField(
+           default=0
+        )
+
 
 
 
@@ -213,7 +217,23 @@ class PostItem(BaseArticle, BaseDateTime, BaseThumbnailFeatured, BaseSeo):
 
     def Categories(self):
         return ",".join([c.name for c in self.categories.all()])
-    
+
+
+    def RelatedPosts(self):
+        return [c.id for c in self.related_posts.all()]
+
+    def RelatedPostsPublished(self):
+        return  self.related_posts.filter(publish=True)
+
+
+    def FirstCategory(self):
+        i = 0
+        for c in self.categories.all():
+            if i == 0:
+                return c 
+           
+
+        return None
     @staticmethod
     def SitemapToMonth():
         posts = PostItem.objects.filter(publish=True,post_type='post').\
@@ -301,44 +321,3 @@ class PostItem(BaseArticle, BaseDateTime, BaseThumbnailFeatured, BaseSeo):
         db_table = 'posts_items'
         app_label = 'posts'
 
-
-@receiver(post_save, sender=PostItem)
-def updating_post_nav_slug(sender, instance, **kwargs):
-    post = instance # 
-    try:
-        f1 = Q(app_label='posts')
-        
-        f2 = Q(model='PostItem')
-        i = ContentType.objects.get(
-            f1 & f2
-            )
-        i.get_object_for_this_type(id=instance.id)
-        cType = ContentType.objects.get_for_model(i)
-        parent = NavigationItem.objects.filter(
-            object_id=i.id,
-            content_type=cType,
-            view_name='posts_details'
-        ).update(slug=instance.slug)                 
-    except ObjectDoesNotExist:
-        return None    
-
-
-@receiver(post_save, sender=PostCategory)
-def updating_category_nav_slug(sender, instance, **kwargs):
-    post = instance # 
-    try:
-        f1 = Q(app_label='posts')
-        
-        f2 = Q(model='PostCategory')
-        i = ContentType.objects.get(
-            f1 & f2
-            )
-        i.get_object_for_this_type(id=instance.id)
-        cType = ContentType.objects.get_for_model(i)
-        parent = NavigationItem.objects.filter(
-            object_id=i.id,
-            content_type=cType,
-            view_name='category'
-        ).update(slug=instance.slug)                 
-    except ObjectDoesNotExist:
-        return None    

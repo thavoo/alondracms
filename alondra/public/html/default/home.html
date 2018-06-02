@@ -1,108 +1,138 @@
-{% extends "layouts/default.html" %}
+{% extends "layouts/default_home.html" %}
 {% load posts_tags %}
 {% load set_var %}
 {% load comment_tags %}
+{% load text_filters %}
 {% load humanize %} 
 {% load tz %}
+
 
 {% block featured %}
 
   {% get_featured_article_category "post" "noticias" as post %}
    {% if post != None %}
-    <div class="col-md-12 text-left padding-top-10 padding-bottom-10 container-relative recalculate-font-size dark2">
+    <div class="col-md-12 text-left padding-top-10 margin-top-10 padding-bottom-10 container-relative recalculate-font-size dark2">
         <img class="img-responsive box-inner-shadow" alt="post.featured_image" src="{{post.featured_image}}">
         <div style="background-color: #333; padding: 15px;" class="text margin-20">
             <a  href="{% url "page_details" slug=post.slug %}" class="title font-bold font-white">{{post.title}} </a>
             <p class="paragraph font-white">{{post.excerpt}}</p>
         </div>
+        
     </div>
     {% endif %}
 {% endblock %}
 {% block content %}
 
 <div class="col-md-12 center-text-center padding-top-20 padding-bottom-20">
-
-     <!-- anunicio-2 -->
-
-
+    <div class="text-center clearfix">
+        <div class="fancy-box ad ad728">
+            <div class="fancy_box_body"> <ins class="adsbygoogle"
+                 style="display:inline-block;width:728px;height:90px"
+                 data-ad-client="ca-pub-3606690194001059"
+                 data-ad-slot="5380169445"></ins></div>
+        </div>
+    </div>
 </div>
 
-{% get_recent_articles_category 6 "post" "noticias" as noticias %}
-{% get_recent_articles_category 3 "post" "recomendaciones" as recomendaciones %}
-{% get_recent_articles 4 "game"  as juegos %}
+{% get_recent_articles 6 "post" as noticias %}
+
 <!--=================================
 Blog
 =================================-->
+<div class="col-md-9 col-sm-12 white-background recalculate-font-size col-md-9-ads tab-container">
+    <div class="row no-row">
+        <div class="col-lg-2 col-md-3 col-sm-3">
+            <ul class="nav nav-pills nav-stacked nav-ads-inline tabs">
+                <li class="active"><a href="#" data-parent="#news"><i class="glyphicon glyphicon-time"></i> Noticias </a></li>
+                <li><a href="#" data-parent="#videos"><i class="glyphicon glyphicon-film"></i> Videos </a></li>
+            </ul>
+        </div>
+        <div class="col-lg-10 col-md-8 col-sm-9 no-padding items-list">
+            <div class="row no-row tab-item" id="news" style="display: block;">
+                <div class="col-md-12 border-bottom-bach">
+                       {% for post in noticias %}
+                       {% if not forloop.first %}
 
 
-
-		{% for post in noticias %}
-          {% if forloop.counter <= 1 or forloop.counter|divisibleby:"3"   %} 
-          <div class="row no-row border-bottom">
-          {% endif %}
-            <div class="col-md-4 col-sm-4 ">
-              <div class="row padding-top-20 padding-bottom-20">
-                  <div class="col-md-12">
-                  <img class="img-responsive" alt="{{post.title}}" src="{{post.featured_image}}">
-                  <span class="label label-warning">Noticias </span></div>
-                  <div class="col-md-11">
-                        <div>
-                            <a href="{% url "page_details" slug=post.slug %}" class="title">{{post.title}}</a>
+                      <div class="row padding-top-20 padding-bottom-20">
+                            <div class="col-md-4 col-sm-5">
+                              <img class="img-responsive" alt="{{post.title}}" src="{{post.thumbnail}}">
+                              {% if post.FirstCategory != None %}
+                              <a class="label label-warning" href="{% url "page_details" slug=post.FirstCategory.slug %}">{{post.FirstCategory.name}} </a>
+                              {% endif %}
+                            </div>
+                            <div class="col-md-8">
+                               
+                                <a href="{% url "page_details" slug=post.slug %}" class="title">{{post.title}}</a>
+                              
+                                <span class="meta"> •
+                                  <time datetime="{{ post.datetime|date:"Y-m-d H:i:s" }}">{{ post.created|naturaltime}}</time> 
+                                </span>
+                            </div>
                         </div>
-                        <div>
-                            <span>Por </span>
-                            <a href="#" class="autor">{{post.autor.nick}} </a>
-                            <time  class="font-12" datetime="{{ post.datetime|date:"Y-m-d H:i:s" }}">
-                                Hace {{ post.created|naturaltime}}
-                            </time> 
-
+                        {% endif %}
+                    {% endfor %}
+                    
+                    <div class="row padding-top-20 padding-bottom-20">
+                        <div class="col-md-12 padding-top-10 padding-bottom-10">
+                          <a href="{% url "archive" %}"  class="btn btn-primary" >
+                            <i class="glyphicon glyphicon-tag"></i> Archivos 
+                          </a>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row no-row tab-item" id="videos" style="display: none;">
+                <div class="col-md-12 border-bottom-bach">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-          {% if forloop.counter|divisibleby:"3" or forloop.counter == posts|length   %}   
-          </div>  
-          {% endif %}        
-        {% endfor %}
+<div class="col-md-3 visible-md-block visible-lg-block md-3-ads no-padding">
+  <div class="row">
+      <div class="col-md-12 recalculate-font-size">
+          <h6 class="title padding-20 border-left-5">Ultimos Lanzamientos</h6>
+          <div class="background-dark cover-background">
+              <div class="background-dark cover-background" style="background-image:url(&quot;assets/img/newworld01.png&quot;);">
+                  <div class="padding-20 hover-dark"><a href="#" class="title font-white">Black Desert Online </a></div>
+              </div>
+              <div class="background-dark cover-background" style="background-image:url(&quot;assets/img/newworld01.png&quot;);">
+                  <div class="padding-20 hover-dark"><a href="#" class="title font-white">Call of Duty: WWII </a></div>
+              </div>
+              <div class="background-dark cover-background" style="background-image:url(&quot;assets/img/newworld01.png&quot;);">
+                  <div class="padding-20 hover-dark"><a href="#" class="title font-white">Horizon: Zero Dawn - The Frozen Wilds </a></div>
+              </div>
+              <div class="background-dark cover-background" style="background-image:url(&quot;assets/img/newworld01.png&quot;);">
+                  <div class="padding-20 hover-dark"><a href="#" class="title font-white">Black Desert Online </a></div>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-12 recalculate-font-size">
+          {% get_top_rated_articles as top_rated_articles %}
+          <h6 class="title padding-20 border-left-5-dark">Top</h6>
+          <div class="background-dark cover-background">
+              {% for post in top_rated_articles %}
+              <div class="background-dark cover-background">
+                  <div class="padding-20 hover-dark">
+                    <span class="title font-bold font-yellow"> {{ forloop.counter }}  </span>
+                    <a  href="{% url "page_details" slug=post.slug %}" class="title font-white">{{post.title}} </a>
+                  </div>
+              </div>
+              {% endfor %}
+             
+            
+          </div>
+      </div>
+  </div>
+</div>
+	
         
         
    
-          <div class="row">
-              <div class="col-md-12 ">
-                  <div class="row no-row">
-                      {% for post in recomendaciones %}
-                      <div class="col-md-12 border-bottom-bach">
-                          <div class="row padding-top-20 padding-bottom-20">
-                              <div class="col-md-4 col-sm-5">
-                                <img class="img-responsive" alt="post.featured_image" src="{{post.featured_image}}">
-                              <span class="label label-warning">RECOMENDACIONES </span>
-                              </div>
-                              <div class="col-md-8">
-                                  <div>
-                                    <a href="{% url "page_details" slug=post.slug %}" class="title">{{post.title}}</a>
-                                  </div>
-                                  <div>
-                                    <span>Por </span>
-                                    <a href="#" class="autor">{{post.autor.nick}} </a>
-                                    <time  class="font-12" datetime="{{ post.datetime|date:"Y-m-d H:i:s" }}">
-                                         • {{ post.created|naturaltime}}
-                                    </time> 
-                                  </div>
-                              </div>
-                          </div>
-                         
-                      </div>
-                      {% endfor %}
-                      <div class="col-md-12 padding-top-20 padding-bottom-20">
-                          <a href="{% url "archive" %}" class="btn btn-default" type="button">
-                            <i class="glyphicon glyphicon-tag"></i> Archivos 
-                          </a>
-                          <a href="{% url 'page_details' slug="recomendaciones" %}" class="btn btn-primary pull-right">+ Recomendaciones</a>
-                      </div>
-                  </div>
-              </div>
-          </div>
+     
 
 
          
