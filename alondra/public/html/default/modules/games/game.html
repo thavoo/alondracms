@@ -14,7 +14,10 @@
     <div class="row">
         <div class="col-md-4">
         <img class="img-responsive" src="{{gameinfo.poster}}">
-            <div class="padding-20"><a href="#" class="padding-10 blue font-white"><i class="fa fa-twitter"></i></a><a href="#" class="padding-10 blue2 font-white padding-left-15 padding-right-15"><i class="fa fa-facebook-f"></i></a><a href="#" class="padding-10 background-dark font-white"><i class="fa fa-envelope-o"></i></a></div>
+            <div class="padding-20">
+
+                <a  rel="nofollow"  href="https://twitter.com/intent/tweet?text={{gameinfo.title}}&via=gamajuegos&url={{current_domain}}{% url "game" slug=gameinfo.slug %}" target="_blank" class="padding-10 blue font-white"><i class="fa fa-twitter"></i></a><a href="https://www.facebook.com/sharer.php?u={{current_domain}}{% url "game" slug=gameinfo.slug %}" class="padding-10 blue2 font-white padding-left-15 padding-right-15"><i class="fa fa-facebook-f"></i></a><a  rel="nofollow" href="mailto:?subject={{gameinfo.title}}&body={{current_domain}}{% url "game" slug=gameinfo.slug %}" class="padding-10 background-dark font-white"><i class="fa fa-envelope-o"></i></a>
+            </div>
         </div>
         <div class="col-md-8">
             <h1 class="title3 padding-20 border-left-5 text-left no-margin-left">{{gameinfo.title}}</h1>
