@@ -1,0 +1,59 @@
+{% extends "layouts/default.html" %}
+{% load posts_tags %}
+{% load game_tags %}
+
+{% load set_var %}
+{% load comment_tags %}
+{% load text_filters %}
+{% load humanize %} 
+{% load tz %}
+{% block content %}
+
+
+	<div class="videoWrapper margin-bottom-20">
+
+		{% get_oembed_html video.link as oembed_object %}
+		{{oembed_object.html|safe}}
+	</div>
+		<div class="col-md-8">
+            <h1 class="title3 padding-20 border-left-5-dark text-left no-margin-left">{{video.title}}</h1>
+            <p class="paragraph padding-5 border-bottom recalculate-font-size no-border">{{video.content|get_markdown|safe}} </p>
+        </div>  
+	<div id="commentspagex">
+		<div id="disqus_thread"></div>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	</div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://gamajuegos-com.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+
+                            
+
+         
+      
+
+{% endblock %}
+
+
+{% block sidebar %}
+	<aside class="col-md-4 hidden-xs hidden-sm visible-md-block visible-lg-block">
+		<div class="col-md-12 center-text-center no-padding">
+            <h6 class="title padding-20 border-left-5-dark text-left no-margin-left">Videos Relacionados</h6>
+        </div>
+	</aside>
+{% endblock %}
