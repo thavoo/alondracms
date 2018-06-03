@@ -39,6 +39,8 @@ GET_VIDEO = 'http://videodatabase.gamajuegos.com/api/post/parent/list/'
 
 GET_VIDEO_PARENT_LIST = 'http://videodatabase.gamajuegos.com/api/list/parent/'
 
+GET_VIDEO_RELATED_LIST = 'http://videodatabase.gamajuegos.com/api/posts/related/list/'
+
 GET_VIDEO_DETAILS = 'http://videodatabase.gamajuegos.com/api/post/get/'
 
 	
