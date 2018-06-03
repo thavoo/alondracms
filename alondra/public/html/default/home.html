@@ -1,5 +1,7 @@
 {% extends "layouts/default_home.html" %}
 {% load posts_tags %}
+{% load video_tags %}
+
 {% load set_var %}
 {% load comment_tags %}
 {% load text_filters %}
@@ -85,6 +87,15 @@ Blog
             <div class="row no-row tab-item" id="videos" style="display: none;">
                 <div class="col-md-12 border-bottom-bach">
                     
+                    {% get_recent_videos as recent_videos %}
+                    {% for post in recent_videos %}
+                    <div class="row padding-top-20 padding-bottom-20">
+                        <div class="col-md-4 col-sm-5"> <img class="img-responsive" src="{{post.thumbnail}}"></div>
+                        <div class="col-md-8">
+                            <div> <a href="{% url "video" slug=post.slug %}" class="title">{{post.title}}</a></div>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

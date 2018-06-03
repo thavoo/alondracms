@@ -54,12 +54,12 @@ s.setAttribute('data-timestamp', +new Date());
 	<aside class="col-md-4 hidden-xs hidden-sm visible-md-block visible-lg-block">
 		<div class="col-md-12 center-text-center no-padding">
             <h6 class="title padding-20 border-left-5-dark text-left no-margin-left">Videos Relacionados</h6>
-            {% get_related_videos video.id 4 related_videos  %}
+            {% get_related_videos video.id 4 as related_videos  %}
             {% for video in related_videos %}
             	<div class="col-md-12">
                     <div class="row padding-top-20 padding-bottom-20">
                         <img class="img-responsive" src="{{video.thumbnail}}">
-                        <div><a{% url "video" slug=video.slug %} class="title2">{{video.title}}</a></div>
+                        <div><a href="{% url "video" slug=video.slug %}"  class="title2">{{video.title}}</a></div>
                         
                     </div>
                 </div>

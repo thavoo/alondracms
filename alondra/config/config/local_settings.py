@@ -35,11 +35,16 @@ AUTHENTICATION_BACKENDS = (
 TOP_RATED_GAMES = 'http://database.gamajuegos.com/api/games/new/launched/'
 GET_GAME = 'http://database.gamajuegos.com/api/game/get/'
 
+GAMES_LIST = 'http://database.gamajuegos.com/api/games/'
+
+
+VIDEOS_LIST = 'http://videodatabase.gamajuegos.com/api/posts/'
+
 GET_VIDEO = 'http://videodatabase.gamajuegos.com/api/post/parent/list/'
 
 GET_VIDEO_PARENT_LIST = 'http://videodatabase.gamajuegos.com/api/list/parent/'
 
-GET_VIDEO_RELATED_LIST = 'http://videodatabase.gamajuegos.com/api/posts/related/list/'
+GET_VIDEO_RELATED_LIST = 'http://videodatabase.gamajuegos.com/api/post/related/list/'
 
 GET_VIDEO_DETAILS = 'http://videodatabase.gamajuegos.com/api/post/get/'
 

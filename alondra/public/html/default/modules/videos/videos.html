@@ -6,151 +6,46 @@
 {% load humanize %} 
 {% load tz %}
 {% block content %}
-
-
-<div class=" white-background article">
-    <div class="row">
-        <div class="col-md-4">
-        <img class="img-responsive" src="assets/img/Logo-negro-oficial-Black-Desert-Online-810x400.jpg">
-            <div class="padding-20"><a href="#" class="padding-10 blue font-white"><i class="fa fa-twitter"></i></a><a href="#" class="padding-10 blue2 font-white padding-left-15 padding-right-15"><i class="fa fa-facebook-f"></i></a><a href="#" class="padding-10 background-dark font-white"><i class="fa fa-envelope-o"></i></a></div>
-        </div>
-        <div class="col-md-8">
-            <h1>Black Desert</h1>
-            <p class="paragraph padding-5 border-bottom recalculate-font-size no-border">Black Desert es un nuevo MMO, con unos gráficos espectaculares que está desarrollando la compañía asiática, Pearl Abyss. Sus creadores son los mismos que C9 y el juego a priori tiene pinta de ser un C9 mejorado. El combate
-                será dinámico con bloqueos, movimientos para esquivar y uniendo ataques en combos. </p>
+<div class="row">
+      <div class="col-md-12 no-padding">
+          <h3 class="title3 padding-20 border-left-5 text-left no-margin-left">VIDEOS </h3>
+      </div>
+</div>
+        
+<br>
+<div class="row no-row">
+    <div class="col-md-12 border-bottom-bach">
+        
+        <div class="row padding-top-20 padding-bottom-20 recalculate-font-size">
+            {% for video in videos %}
+            <div class="col-md-4 col-sm-4">
+                <img class="img-responsive" src="{{video.thumbnail}}">
+                <div>
+                  <a href="{% url "video" slug=video.slug %}" class="title"><i class="glyphicon glyphicon-expand"></i> {{video.title}} </a>
+                </div>
+                
+            </div>
+            {% endfor %}
+           
         </div>
     </div>
-    <div class="videoWrapper margin-bottom-20 background-dark"><iframe allowfullscreen="" src="https://www.youtube.com/embed/pNIj9d2yrIg" width="560" height="315" frameborder="0"></iframe></div>
-    <div class="table-responsive important table margin-top-10">
-        <table class="table table-bordered features">
-            <tbody>
-                <tr>
-                    <td width="70px"><strong>Lanzamiento: </strong> </td>
-                    <td>Marzo 2016 </td>
-                </tr>
-                <tr>
-                    <td width="70px"><strong>Genero: </strong> </td>
-                    <td>MMoRpg </td>
-                </tr>
-                <tr>
-                    <td width="70px"><strong>Desarrollador: </strong> </td>
-                    <td>Pearl Abys</td>
-                </tr>
-                <tr>
-                    <td width="70px"><strong>Editor: </strong> </td>
-                    <td>Kakao Games </td>
-                </tr>
-                <tr>
-                    <td width="70px"><strong>Estado: </strong> </td>
-                    <td>Publicado </td>
-                </tr>
-                <tr>
-                    <td width="70px"><strong>Idioma: </strong> </td>
-                    <td>ingles </td>
-                </tr>
-                <tr>
-                    <td width="70px"><strong>Sitio web: </strong> </td>
-                    <td><a href="https://robertsspaceindustries.com/">Visita el sitio oficial de Black Dessert</a></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-  <div>
-      <div class="rating-block">
-        <h4>Rating de usuarios</h4>
-        <h5 class="bold padding-bottom-7">4.3 <small>/ 5</small></h5>
-        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-        </button>
-        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-        </button>
-        <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
-          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-        </button>
-        <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-        </button>
-        <button type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
-          <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-        </button>
-      </div>
-      <a class="btn btn-warning">0 Reviews</a>
-      
-      <button class="btn btn-warning" type="button">
-         <i class="glyphicon glyphicon-comment"></i> 
-          Escribir Review 
-      </button>
-      <div id="RattingUser">
-          <span class="font-bold"> Tu Rating</span>
-          <span>
-            <span class="fa fa-star checked" id="star1" onclick="add(this,1)"></span>
-            <span class="fa fa-star" id="star2" onclick="add(this,2)"></span>
-            <span class="fa fa-star" id="star3" onclick="add(this,3)"></span>
-            <span class="fa fa-star" id="star4" onclick="add(this,4)"></span>
-            <span class="fa fa-star" id="star5" onclick="add(this,5)"></span>
-          </span>
-      </div>
-  </div>
-  <div>
-      <ul class="nav nav-tabs font-bold">
-          <li><a href="#tab-1" role="tab" data-toggle="tab">Imagenes </a></li>
-          <li class="active"><a href="#tab-2" role="tab" data-toggle="tab">Videos </a></li>
-          <li><a href="#tab-3" role="tab" data-toggle="tab">Noticias </a></li>
-      </ul>
-      <div class="tab-content">
-          <div class="tab-pane" role="tabpanel" id="tab-1">
-              <div class="margin-20">
-                  <div class="container-relative margin-bottom-20 padding-bottom-20 padding-bottom-57">
-                      <div class="item">
-                          <div class="container-relative"><a href="#" class="external-link"><i class="glyphicon glyphicon-fullscreen yellow font-white padding-5"></i></a><img class="img-responsive" src="assets/img/newworld01.png"></div>
-                      </div><a href="#" class="next font-white dark"> <i class="glyphicon glyphicon-chevron-right"></i></a><a href="#" class="prev font-white dark"> <i class="glyphicon glyphicon-chevron-left"></i></a></div>
-              </div>
-          </div>
-          <div class="tab-pane active" role="tabpanel" id="tab-2">
-              <div class="margin-20 clearfix">
-                  <div class="col-md-12 white-background no-padding">
-                      <div class="row no-row">
-                          <div class="col-md-6 border-bottom-bach">
-                              <div class="row padding-top-20 padding-bottom-20">
-                                  <div class="col-md-12 col-sm-3"><img class="img-responsive" src="assets/img/mqdefault(3).jpg"></div>
-                                  <div class="col-md-12">
-                                      <div><a href="#" class="title">Black Desert Online está preparando su próxima expansión “Kamasylvia” </a></div>
-                                  </div>
-                              </div>
-                          </div>
-                          
-                          <div class="col-md-12 padding-top-20 padding-bottom-20"><a href="#" class="btn btn-primary pull-right"> MAS JUEGOS</a></div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-          <div class="tab-pane" role="tabpanel" id="tab-3">
-              <div class="margin-20 clearfix">
-                  <div class="col-md-12 white-background no-padding">
-                      <div class="row no-row">
-                          <div class="col-md-6 border-bottom-bach">
-                              <div class="row padding-top-20 padding-bottom-20">
-                                  <div class="col-md-12 col-sm-3"><img class="img-responsive" src="assets/img/mqdefault(3).jpg"><span class="label label-warning">JUEGOS </span></div>
-                                  <div class="col-md-12">
-                                      <div><a href="#" class="title">Black Desert Online está preparando su próxima expansión “Kamasylvia” </a></div>
-                                      <div class="meta"><span>Por </span><a href="#" class="autor">UnoCero </a><span> • 27-Sep-2017 </span></div>
-                                  </div>
-                              </div>
-                          </div>
-                         
-                          <div class="col-md-12 padding-top-20 padding-bottom-20"><a href="#" class="btn btn-primary pull-right"> MAS JUEGOS</a></div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-</div>       
-   
+    {% if next_page > 0 %}
+    <div class="col-md-12 padding-top-20 padding-bottom-20">
+       {% if next_page < pages %}
+          <a href="{% url "videos" page=next_page %}" class="btn btn-primary pull-right margin-right">Post Antiguos</a>
+        {% endif %}
+        {% if page > 1 %}
+          {% if page > pages %}
+          <a href="{% url "videos" page=prev_page %}" class="btn btn-primary pull-right">Post Recientes</a>
+          {% else %}
+           <a href="{% url "videos" %}" class="btn btn-primary pull-right">Post Recientes</a>
+          {% endif %}
+        {% endif %}
      
-
-
+     
+    </div>
+    {% endif %}
+</div>
          
       
 

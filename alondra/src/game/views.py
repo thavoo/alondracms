@@ -8,8 +8,43 @@ from utilities.paginator import paginator
 from django.http import Http404
 
 def games(request, slug=None, page=1, model=None):
+    next_page = 0
+    prev_page = 0
+    context = {'games':[],'pages':1,'page':int(page),'next_page':next_page,'prev_page':prev_page}
 
-    context = {}
+    
+    headers = {
+        "User-Agent": "Gamajuegos Browser",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept": "application/json; charset=utf-8",
+        "Accept-Language": "es-MX,es;q=0.8",
+        "Connection": "keep-alive",
+        'Content-type': 'application/json; charset=utf-8'
+    }
+
+    r = requests.post(
+        settings.GAMES_LIST, 
+        data=json.dumps({'page':page,'limit':10}), 
+        headers=headers
+    )
+    r.encoding = 'utf-8'
+    if r.status_code > 400:
+        raise Http404
+    if r.status_code == 200:
+        games = json.loads(r.text.encode('utf-8'))
+        context['games'] = games.get('items',[])
+        context['pages'] = games.get('pages')+1
+        if(page==1):
+            context['next_page'] = int(page) +1
+        if context['next_page'] < (context['pages']):
+            context['next_page'] = int(page) +1
+            if context['next_page'] >= (context['pages']):
+                context['next_page'] = context['pages'] 
+        if(page>1):
+            context['prev_page'] = int(page) -1
+            
+
+
     template_name = [
             'modules/games/games.html' ,
          
