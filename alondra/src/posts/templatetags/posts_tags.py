@@ -202,7 +202,7 @@ def count_articles_by_month(context, post_type="post",month="01"):
     f5 = Q(is_on_feed=True)  
    
     f7 = Q(created__month=month)
-           
+    f7 = Q(created__month=month)       
     posts = PostItem.objects.filter(f1 & (f2 | f3) & f4 & f5 & f7 ).order_by("-publish_date",'-id')
       
     return len(posts)
