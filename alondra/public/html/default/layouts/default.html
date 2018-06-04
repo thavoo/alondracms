@@ -42,7 +42,10 @@
 	  		</section>
 	  		{% block sidebar %}
 			<aside class="col-md-4 visible-md-block visible-lg-block">
-				{% include "includes/__sidebar.html" %}
+				<div class="row append-widgets">
+					{% include "includes/__sidebar.html" %}
+				</div>
+				
 			</aside>
 			{% endblock %}
 		</div>

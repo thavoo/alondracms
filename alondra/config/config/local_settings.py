@@ -49,3 +49,5 @@ GET_VIDEO_RELATED_LIST = 'http://videodatabase.gamajuegos.com/api/post/related/l
 GET_VIDEO_DETAILS = 'http://videodatabase.gamajuegos.com/api/post/get/'
 	
 GET_IMAGES_RELATED_LIST = 'http://imagesdatabase.gamajuegos.com/api/post/parent/list/'
+
+GET_EMAIL_SUSCRIPTION_SERVICE_URL_DETAILS ='http://emaildatabase.webdisenoya.com/api/suscribe/'

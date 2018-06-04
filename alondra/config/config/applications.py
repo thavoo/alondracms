@@ -29,5 +29,5 @@ INSTALLED_APPS = (
     'comments',   
     'game',  
     'video',   
-
+    'email_suscription',
 )

@@ -78,83 +78,93 @@
                                 {% for c in articles_by_year %}
                                 <div class="col-md-3 col-sm-4">
                                     <h5 class="font-bold">{{c.year}} </h5>
+
                                     <ul class="yellow-font no-style list">
                                         <li>
-                                            <a href="{% url 'year_month_archive' year=c.year month='12' %}">
-                                                Diciembre {{c.year}} 
-                                                {% count_articles_by_month "post" 12 as count_month %}
+                                            <a href="{% url 'year_month_archive' year=c.year month='01' %}">Enero {{c.year}} 
+                                                {% count_articles_by_month c.year 01 "post" as count_month %}
+                                                <span>({{count_month}}) </span>
+                                            </a>
+                                        </li>
+                                        <li> 
+                                            <a href="{% url 'year_month_archive' year=c.year month='02' %}">Febrero {{c.year}} 
+                                                {% count_articles_by_month c.year 01 "post" as count_month %}
+                                                <span>({{count_month}}) </span>
+                                            </a>
+                                        </li>
+                                        
+                                         <li> 
+                                            <a href="{% url 'year_month_archive' year=c.year month='03' %}">Marzo {{c.year}} 
+                                                {% count_articles_by_month c.year 03 "post" as count_month %}
+                                                <span>({{count_month}}) </span>
+                                            </a>
+                                        </li>
+                                        <li> 
+                                            <a href="{% url 'year_month_archive' year=c.year month='04' %}">Abril {{c.year}} 
+                                                {% count_articles_by_month c.year 04 "post" as count_month %}
+                                                <span>({{count_month}}) </span> 
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'year_month_archive' year=c.year month='05' %}">Mayo {{c.year}} 
+                                                {% count_articles_by_month c.year 05 "post" as count_month %}
+                                                <span>({{count_month}}) </span>  
+
+                                            </a>
+                                        </li>
+                                         <li>
+                                            <a href="{% url 'year_month_archive' year=c.year month='06' %}">Junio {{c.year}} 
+                                                {% count_articles_by_month c.year 06 "post" as count_month %}
+                                                <span>({{count_month}}) </span>  
+
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{% url 'year_month_archive' year=c.year month='07' %}">Julio {{c.year}} 
+                                                {% count_articles_by_month c.year 07 "post" as count_month %}
+                                                <span>({{count_month}}) </span> 
+                                            </a>
+                                        </li>
+                                        <li> 
+                                            <a href="{% url 'year_month_archive' year=c.year month='08' %}">Agosto {{c.year}} 
+                                                {% count_articles_by_month  c.year 08 "post" as count_month %}
+                                                <span>({{count_month}}) </span> 
+                                            </a>
+                                        </li>
+                                         <li> 
+                                            <a href="{% url 'year_month_archive' year=c.year month='09' %}">Septiembre {{c.year}} 
+                                                {% count_articles_by_month c.year 09 "post" as count_month %}
+                                                <span>({{count_month}}) </span>
+                                            </a>
+                                        </li>
+                                           <li> 
+                                            <a href="{% url 'year_month_archive' year=c.year month='10' %}">Octubre {{c.year}} 
+                                                {% count_articles_by_month c.year 10 "post" as count_month %}
                                                 <span>({{count_month}}) </span>
                                             </a>
                                         </li>
                                         <li> 
                                             <a href="{% url 'year_month_archive' year=c.year month='11' %}">
                                                 Noviembre {{c.year}} 
-                                                {% count_articles_by_month "post" 11 as count_month %}
+                                                {% count_articles_by_month  c.year 11 "post" as count_month %}
                                                 <span>({{count_month}}) </span>
                                             </a>
                                         </li>
-                                        <li> 
-                                            <a href="{% url 'year_month_archive' year=c.year month='10' %}">Octubre {{c.year}} 
-                                                {% count_articles_by_month "post" 10 as count_month %}
-                                                <span>({{count_month}}) </span>
-                                            </a>
-                                         </li>
-                                        <li> 
-                                            <a href="{% url 'year_month_archive' year=c.year month='09' %}">Septiembre {{c.year}} 
-                                                {% count_articles_by_month "post" 09 as count_month %}
-                                                <span>({{count_month}}) </span>
-                                            </a>
-                                        </li>
-                                        <li> 
-                                            <a href="{% url 'year_month_archive' year=c.year month='08' %}">Agosto {{c.year}} 
-                                                {% count_articles_by_month "post" 08 as count_month %}
-                                                <span>({{count_month}}) </span> 
-                                            </a>
-                                        </li>
+                                     
+                                       
                                         <li>
-                                            <a href="{% url 'year_month_archive' year=c.year month='07' %}">Julio {{c.year}} 
-                                                {% count_articles_by_month "post" 07 as count_month %}
-                                                <span>({{count_month}}) </span> 
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'year_month_archive' year=c.year month='06' %}">Junio {{c.year}} 
-                                                {% count_articles_by_month "post" 06 as count_month %}
-                                                <span>({{count_month}}) </span>  
-
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'year_month_archive' year=c.year month='05' %}">Mayo {{c.year}} 
-                                                {% count_articles_by_month "post" 05 as count_month %}
-                                                <span>({{count_month}}) </span>  
-
-                                            </a>
-                                        </li>
-                                        <li> 
-                                            <a href="{% url 'year_month_archive' year=c.year month='04' %}">Abril {{c.year}} 
-                                                {% count_articles_by_month "post" 04 as count_month %}
-                                                <span>({{count_month}}) </span> 
-                                            </a>
-                                        </li>
-                                        <li> 
-                                            <a href="{% url 'year_month_archive' year=c.year month='03' %}">Marzo {{c.year}} 
-                                                {% count_articles_by_month "post" 03 as count_month %}
+                                            <a href="{% url 'year_month_archive' year=c.year month='12' %}">
+                                                Diciembre {{c.year}} 
+                                                {% count_articles_by_month c.year 12 "post" as count_month %}
                                                 <span>({{count_month}}) </span>
                                             </a>
                                         </li>
-                                        <li> 
-                                            <a href="{% url 'year_month_archive' year=c.year month='02' %}">Febrero {{c.year}} 
-                                                {% count_articles_by_month "post" 02 as count_month %}
-                                                <span>({{count_month}}) </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'year_month_archive' year=c.year month='01' %}">Enero {{c.year}} 
-                                                {% count_articles_by_month "post" 01 as count_month %}
-                                                <span>({{count_month}}) </span>
-                                            </a>
-                                        </li>
+                                       
+                                     
+                                       
+                                     
+                                      
+                                       
                                     </ul>
                                 </div>
                                 {% endfor %}

@@ -192,7 +192,7 @@ def count_articles_by_year(context, post_type="post",tags_slug=None):
 
 
 @register.assignment_tag(name='count_articles_by_month', takes_context=True)
-def count_articles_by_month(context, post_type="post",month="01"):
+def count_articles_by_month(context,year,month="01", post_type="post"):
     
     current_date =  timezone.now()
     f1 = Q(publish=True)
@@ -202,9 +202,10 @@ def count_articles_by_month(context, post_type="post",month="01"):
     f5 = Q(is_on_feed=True)  
    
     f7 = Q(created__month=month)
-    f7 = Q(created__month=month)       
-    posts = PostItem.objects.filter(f1 & (f2 | f3) & f4 & f5 & f7 ).order_by("-publish_date",'-id')
-      
+    f8 = Q(created__year=year)      
+
+    posts = PostItem.objects.filter(f1 & (f2 | f3) & f4 & f5 & (f7 & f8) ).order_by("-publish_date",'-id')
+    
     return len(posts)
 
 
