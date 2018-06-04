@@ -6,6 +6,10 @@ from posts.models import PostItem
 from utilities.paginator import paginator
 
 register = template.Library()
+
+
+
+
 @register.assignment_tag(name='get_related_videos', takes_context=True)
 def get_related_videos(context,parent_id,limit=5):
     videos = []

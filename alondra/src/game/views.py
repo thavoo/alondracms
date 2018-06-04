@@ -53,7 +53,7 @@ def games(request, slug=None, page=1, model=None):
 
 def game(request, slug=None):
     
-    context = {'gameinfo':None,'videos':[]}
+    context = {'gameinfo':None,'videos':[],'images':[]}
 
     headers = {
         "User-Agent": "Gamajuegos Browser",
@@ -106,6 +106,23 @@ def game(request, slug=None):
             if r.status_code < 400:
                 context['video_items'] = json.loads(r.text.encode('utf-8'))
                 
+            headers = {
+                "User-Agent": "Gamajuegos Browser",
+                "Accept-Encoding": "gzip, deflate",
+                "Accept": "application/json; charset=utf-8",
+                "Accept-Language": "es-MX,es;q=0.8",
+                "Connection": "keep-alive",
+                'Content-type': 'application/json; charset=utf-8'
+            }
+
+            r = requests.post(
+                settings.GET_IMAGES_RELATED_LIST, 
+                data=json.dumps({'parent_id':context['gameinfo'].get('id')}), 
+                headers=headers
+            )
+            r.encoding = 'utf-8'
+            if r.status_code == 200:
+               context['images'] = json.loads(r.text.encode('utf-8'))
 
         except ValueError :
             raise Http404
@@ -114,7 +131,6 @@ def game(request, slug=None):
        
     else:
         raise Http404
-
 
 
 

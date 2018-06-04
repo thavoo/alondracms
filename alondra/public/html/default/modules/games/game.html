@@ -1,9 +1,6 @@
 {% extends "layouts/default.html" %}
 {% load posts_tags %}
 {% load game_tags %}
-
-{% load set_var %}
-{% load comment_tags %}
 {% load text_filters %}
 {% load humanize %} 
 {% load tz %}
@@ -77,14 +74,15 @@
     </div>
  
   <div>
+
       <ul class="nav nav-tabs font-bold">
-          
-          <li class="active"><a href="#tab-2" role="tab" data-toggle="tab">Videos </a></li>
+          <li class="active"><a href="#tab-1" role="tab" data-toggle="tab" aria-expanded="true">Imagenes </a></li>
+          <li class=""><a href="#tab-2" role="tab" data-toggle="tab">Videos </a></li>
           <li><a href="#tab-3" role="tab" data-toggle="tab">Noticias </a></li>
       </ul>
       <div class="tab-content">
          
-          <div class="tab-pane active" role="tabpanel" id="tab-2">
+          <div class="tab-pane " role="tabpanel" id="tab-2">
               <div class="margin-20 clearfix">
                   <div class="col-md-12 white-background no-padding">
                       <div class="row no-row">
@@ -101,6 +99,28 @@
                           
                       </div>
                   </div>
+              </div>
+          </div>
+
+          <div class="tab-pane active" role="tabpanel" id="tab-1">
+              <div class="margin-20">
+                  {% if images|length > 0 %}
+                  <div class="container-relative  margin-bottom-20 padding-bottom-20 padding-bottom-57">
+                     
+                      {% for image in images %}
+                      <div class="item {% if not forloop.first %}hide{% endif %}">
+                          <div class="container-relative">
+                            <a href="{{image.image}}" class="external-link">
+                            <i class="glyphicon glyphicon-fullscreen yellow font-white padding-5"></i>
+                            </a>
+                            <img class="img-responsive" src="{{image.image}}">
+                          </div>
+                      </div>
+                      {% endfor %}
+                      <a href="#" class="next font-white dark"> <i class="glyphicon glyphicon-chevron-right"></i></a>
+                      <a href="#" class="prev font-white dark"> <i class="glyphicon glyphicon-chevron-left"></i></a>
+                  </div>
+                  {% endif %}
               </div>
           </div>
           <div class="tab-pane" role="tabpanel" id="tab-3">
