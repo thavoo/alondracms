@@ -200,7 +200,7 @@ def rate_game(request, slug=None):
                         headers=headers
                     )
                     r.encoding = 'utf-8'
-                    print r.status_code
+                    
                     if r.status_code == 200:
                         context2['success'] = True
                     if r.status_code > 400:
@@ -209,7 +209,7 @@ def rate_game(request, slug=None):
                     context2['success'] = False
             else:
                 raise Http404
-    print context2
+    
     return HttpResponse(json.dumps(context2))
 
 
