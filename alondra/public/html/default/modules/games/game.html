@@ -201,12 +201,12 @@
 <aside class="col-md-4 visible-md-block visible-lg-block">
   <div class="row append-widgets">
   </div>
-  <h3 class="title3 padding-20 border-left-5-dark">Top Ranking</h3>
+ 
 
   {% get_top_games_users as games %}
     {% if games|length > 0 %}
       {% for game in games%}
-
+       <h3 class="title3 padding-20 border-left-5-dark">Top Ranking</h3>
       <div class="rating-block margin-bottom-10  small clearfix">
         <div class=" ">
           

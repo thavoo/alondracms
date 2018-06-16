@@ -176,9 +176,9 @@ def rate_game(request, slug=None):
             )
             r.encoding = 'utf-8'
             if r.status_code == 204:
-                raise Http404
+                context2['success'] = False
                 
-            if r.status_code < 400:
+            if r.status_code == 200:
                 try:
                     gameinfo = json.loads(r.text.encode('utf-8'))  
                     headers = {
@@ -200,15 +200,16 @@ def rate_game(request, slug=None):
                         headers=headers
                     )
                     r.encoding = 'utf-8'
+                    print r.status_code
                     if r.status_code == 200:
                         context2['success'] = True
                     if r.status_code > 400:
                         context2['success'] = False
                 except ValueError :
-                    raise Http404
+                    context2['success'] = False
             else:
                 raise Http404
-
+    print context2
     return HttpResponse(json.dumps(context2))
 
 
