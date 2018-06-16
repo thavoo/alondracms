@@ -9,8 +9,6 @@ MIDDLEWARE_CLASSES = (
     'globaly.middleware.SearchMiddleware',
     'posts.middleware.BlogUrlsMiddleware',
 
-    
-    
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',

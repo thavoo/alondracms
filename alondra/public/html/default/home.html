@@ -46,7 +46,7 @@
           {% if videos|length > 0 %}
             {% for video in videos %}
             <div class="col-md-12 margin-bottom-5 margin-top-5 ">
-                <div class="videoWrapper margin-bottom-20 background-dark">
+                <div class="videoWrapper margin-bottom-20 ">
                   {% get_oembed_html video.link as oembed_object %}
                   {{oembed_object.html|safe}}
                 </div>
