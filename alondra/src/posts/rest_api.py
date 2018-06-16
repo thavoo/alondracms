@@ -5,6 +5,7 @@ from django.conf.urls import url, include
 from rest_framework import routers, serializers, viewsets, generics
 from rest_framework import status
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from rest_framework import generics
@@ -132,6 +133,56 @@ def search_list(request):
                 page, 
                 PostItem.objects.filter(f1 & f4).order_by('-id'),
                 100
+            )
+
+         
+        serializer = PostItemSerializer(
+            posts, 
+            many=True,
+            context={'request': request}
+        )
+        next_page = 0
+        previous_page = 0
+        if posts.has_next():
+            next_page = posts.next_page_number()
+        if posts.has_previous():
+            previous_page = posts.previous_page_number()
+
+        return Response({
+            'pages':posts.paginator.num_pages,
+            'items':serializer.data,
+            'next_page':next_page,
+            'previous_page':previous_page,
+        })
+    return Response(
+                status=status.HTTP_204_NO_CONTENT
+            )
+
+
+@api_view(['POST'])
+@permission_classes((AllowAny,))
+def search_list_published(request):
+        
+    if request.method == 'POST':
+       
+        query = request.data.get('query',None)
+        page = int(request.data.get('page',1))
+        post_type = request.data.get('post_type','post')
+        limit = request.data.get('limit',100)
+        
+        f1 = Q()
+       
+        f4 = Q(post_type=post_type)
+        f5 = Q(publish=True)
+        if(query is not None):
+            f1 = Q(title__icontains=query)
+            if(query.isdigit() == True):
+                f1 = Q(id=int(query))
+        
+        posts = paginator(
+                page, 
+                PostItem.objects.filter(f1 & f4 & f5).order_by('-id'),
+                limit
             )
 
          

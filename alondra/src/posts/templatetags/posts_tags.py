@@ -28,7 +28,7 @@ def get_features_articles(context, limit=5,post_type="post",exclude=None):
     f4 = Q(is_featured=True)   
     f5 = Q(post_type=post_type)     
     post = PostItem.objects.filter(  f1 & (f2 | f3)  & f4 & f5 ).order_by("-publish_date",'-id')[:limit]    
-    return post
+    
  
 
 @register.assignment_tag(name='get_game_articles', takes_context=True)
@@ -36,7 +36,7 @@ def get_game_articles(context,title=None, limit=10,post_type="post"):
     page = context.get('page',1)
     #lt for less than
     current_date =  timezone.now()
-    print title
+    
     
     f6 = Q(title__icontains=title.lower())
     f8 = Q(title__icontains=title)

@@ -1,4 +1,5 @@
 from django.core.urlresolvers import resolve
+from django.http import HttpResponseForbidden
 import importlib
 from django.http import Http404
 from posts.models import PostCategory
@@ -45,3 +46,31 @@ class BlogUrlsMiddleware(object):
                     except PostItem.DoesNotExist:
                         pass
                 raise Http404
+
+
+
+BotNames=['Googlebot','Slurp','Twiceler','msnbot','KaloogaBot','YodaoBot','"Baiduspider','googlebot','Speedy Spider','DotBot']
+param_name='deny_crawlers'
+
+class CrawlerBlocker:
+    def process_request(self, request):
+        user_agent=request.META.get('HTTP_USER_AGENT',None)
+        
+        if not user_agent:
+            return HttpResponseForbidden('request without username are not supported. sorry')
+        request.is_crawler=False
+        
+        for botname in BotNames:
+            if botname in user_agent:
+                request.is_crawler=True
+                
+    
+    def process_view(self, request, view_func, view_args, view_kwargs):
+        if param_name in view_kwargs:
+            if view_kwargs[param_name]:
+                del view_kwargs[param_name]
+                if request.is_crawler:
+                    return HttpResponseForbidden('adress removed from crawling. check robots.txt')
+
+
+

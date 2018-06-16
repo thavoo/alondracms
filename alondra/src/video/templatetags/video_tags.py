@@ -9,6 +9,28 @@ register = template.Library()
 
 
 
+@register.assignment_tag(name='get_featured_videos', takes_context=True)
+def get_featured_videos(context):
+    videos = []
+    headers = {
+        "User-Agent": "Gamajuegos Browser",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept": "application/json; charset=utf-8",
+        "Accept-Language": "es-MX,es;q=0.8",
+        "Connection": "keep-alive",
+        'Content-type': 'application/json; charset=utf-8'
+    }
+
+    r = requests.post(
+        settings.GET_VIDEO_FEATURED_LIST, 
+        data=json.dumps({'limit':1}), 
+        headers=headers
+    )
+    r.encoding = 'utf-8'
+    if r.status_code == 200:
+        videos = json.loads(r.text.encode('utf-8')).get('items',[])
+        
+    return videos
 
 @register.assignment_tag(name='get_related_videos', takes_context=True)
 def get_related_videos(context,parent_id,limit=5):

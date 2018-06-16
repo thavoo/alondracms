@@ -7,15 +7,15 @@ server {
    access_log off;
 
    location /assets/ {
-       alias /usr/share/nginx/html/PYTHON/alondracms/alondra/public/html/default/assets/;
+       alias /var/www/html/PYTHON/alondracms/alondra/public/html/default/assets/;
    }
 
    location /admin/assets/ {
-      alias /usr/share/nginx/html/PYTHON/alondracms/alondra/public/html/admin/assets/;
+      alias /var/www/html/PYTHON/alondracms/alondra/public/html/admin/assets/;
   }
 
    location /assets/media/uploads/ {
-       alias /usr/share/nginx/html/PYTHON/alondracms/alondra/public/content/media/uploads/;
+       alias /var/www/html/PYTHON/alondracms/alondra/public/content/media/uploads/;
    }
    
    location / {

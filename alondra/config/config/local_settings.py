@@ -32,11 +32,16 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',    
 )
 
-TOP_RATED_GAMES = 'http://database.gamajuegos.com/api/games/new/launched/'
-GET_GAME = 'http://database.gamajuegos.com/api/game/get/'
+TOP_RATED_GAMES = 'http://0.0.0.0:8002/api/games/new/launched/'
+GET_GAME = 'http://0.0.0.0:8002/api/game/get/'
 
-GAMES_LIST = 'http://database.gamajuegos.com/api/games/'
+GAMES_LIST = 'http://0.0.0.0:8002/api/games/'
 
+GAMES_RATTING_AVG = 'http://0.0.0.0:8002/api/game/ratting/avg/'
+
+GET_TOP_GAME_USERS_LIST = 'http://0.0.0.0:8002/api/games/top/ratings/'
+
+GAMES_RATE = 'http://0.0.0.0:8002/api/game/ratting/'
 
 VIDEOS_LIST = 'http://videodatabase.gamajuegos.com/api/posts/'
 
@@ -44,10 +49,12 @@ GET_VIDEO = 'http://videodatabase.gamajuegos.com/api/post/parent/list/'
 
 GET_VIDEO_PARENT_LIST = 'http://videodatabase.gamajuegos.com/api/list/parent/'
 
+GET_VIDEO_FEATURED_LIST = 'http://videodatabase.gamajuegos.com/api/post/featured/'
+
 GET_VIDEO_RELATED_LIST = 'http://videodatabase.gamajuegos.com/api/post/related/list/'
 
 GET_VIDEO_DETAILS = 'http://videodatabase.gamajuegos.com/api/post/get/'
 	
 GET_IMAGES_RELATED_LIST = 'http://imagesdatabase.gamajuegos.com/api/post/parent/list/'
 
-GET_EMAIL_SUSCRIPTION_SERVICE_URL_DETAILS ='http://emaildatabase.webdisenoya.com/api/suscribe/'
+GET_EMAIL_SUSCRIPTION_SERVICE_URL_DETAILS ='http://emaildatabase.webdisenoya.com/api/email/suscribe/'

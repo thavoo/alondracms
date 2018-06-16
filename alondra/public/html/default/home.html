@@ -1,8 +1,9 @@
 {% extends "layouts/default_home.html" %}
 {% load posts_tags %}
 {% load video_tags %}
-
+{% load game_tags %}
 {% load set_var %}
+{% load loops_filters %}
 {% load comment_tags %}
 {% load text_filters %}
 {% load humanize %} 
@@ -28,20 +29,77 @@
 <div class="col-md-12 center-text-center padding-top-20 padding-bottom-20">
     <div class="text-center clearfix">
         <div class="fancy-box ad ad728">
-            <div class="fancy_box_body"> <ins class="adsbygoogle"
-                 style="display:inline-block;width:728px;height:90px"
-                 data-ad-client="ca-pub-3606690194001059"
-                 data-ad-slot="5380169445"></ins></div>
+            <div class="fancy_box_body">
+           
+            </div>
         </div>
     </div>
 </div>
 
 {% get_recent_articles 6 "post" as noticias %}
 
-<!--=================================
-Blog
-=================================-->
+
 <div class="col-md-9 col-sm-12 white-background recalculate-font-size col-md-9-ads tab-container">
+
+    <div class="row">
+        {% get_featured_videos as videos %}
+          {% if videos|length > 0 %}
+            {% for video in videos %}
+            <div class="col-md-12 margin-bottom-5 margin-top-5 ">
+                <div class="videoWrapper margin-bottom-20 background-dark">
+                  {% get_oembed_html video.link as oembed_object %}
+                  {{oembed_object.html|safe}}
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% get_top_games_users as games %}
+        {% if games|length > 0 %}
+        <div class="col-md-12 margin-bottom-5 margin-top-5">
+          <h3 class="title3 padding-20 border-left-5">Top Ranking Usuarios</h3>
+          <div class="table-responsive">
+            <table class="table game-ratting">
+                <thead>
+                    <tr>
+                        <th colspan="2">Juegos disponibles </th>
+                        <th>Género </th>
+                        <th>A la venta </th>
+                        <th>Valoración </th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for game in games%}
+                    <tr>
+                        <td><img class="img-responsive" src="{{game.poster}}"></td>
+                        <td>
+                            <div class="info"><a href="/juego/{{game.slug}}">{{game.title}} </a><span class="platform">{{game.platform_parent.name}}</span></div>
+                        </td>
+                        <td><span class="text-info">{{game.genre_parent.name}} </span> </td>
+                        <td><span class="text-info">{{game.launch_date}} </span> </td>
+                        <td>
+                            <div class=" ratting ">
+                              {% for star in 5|times%}
+                              <button type="button" class="btn {% if star <= game.temperature %}btn-warning{% else %}btn-default{% endif %} btn-sm" aria-label="Left Align">
+                                <span class="fa fa-star" aria-hidden="true"></span>
+                              </button>
+                              {% endfor %}
+                            
+                            </div>
+                        </td>
+                    </tr>
+                  {% endfor %}
+        
+                </tbody>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+      
+    </div>
+        
+    <!--=================================
+    Blog
+    =================================-->
     <div class="row no-row">
         <div class="col-lg-2 col-md-3 col-sm-3">
             <ul class="nav nav-pills nav-stacked nav-ads-inline tabs">
@@ -52,8 +110,8 @@ Blog
         <div class="col-lg-10 col-md-8 col-sm-9 no-padding items-list">
             <div class="row no-row tab-item" id="news" style="display: block;">
                 <div class="col-md-12 border-bottom-bach">
-                       {% for post in noticias %}
-                       {% if not forloop.first %}
+                   {% for post in noticias %}
+                      {% if not forloop.first %}
 
 
                       <div class="row padding-top-20 padding-bottom-20">
@@ -119,7 +177,7 @@ Blog
       </div>
       <div class="col-md-12 recalculate-font-size">
           {% get_top_rated_articles as top_rated_articles %}
-          <h6 class="title padding-20 border-left-5-dark">Top</h6>
+          <h6 class="title padding-20 border-left-5-dark">Top Noticias</h6>
           <div class="background-dark cover-background">
               {% for post in top_rated_articles %}
               <div class="background-dark cover-background">
@@ -135,14 +193,4 @@ Blog
       </div>
   </div>
 </div>
-	
-        
-        
-   
-     
-
-
-         
-      
-
 {% endblock %}

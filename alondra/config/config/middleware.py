@@ -1,4 +1,5 @@
 MIDDLEWARE_CLASSES = (
+    'posts.middleware.CrawlerBlocker',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'user.middleware.CustomUserAuthMiddleware',
     'user_site.middleware.UserSiteAuthMiddleware',
@@ -7,6 +8,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'globaly.middleware.SearchMiddleware',
     'posts.middleware.BlogUrlsMiddleware',
+
+    
+    
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',

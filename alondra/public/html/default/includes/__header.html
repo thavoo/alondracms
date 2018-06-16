@@ -9,7 +9,11 @@
             <div class="row">
                 <div class="col-md-12">
                     <form  action="{% url "search" %}" class="form-inline">
-                        <div class="form-group col-md-8 col-xs-8"><input placeholder="Buscar"  name="q"  class="form-control" type="text"></div><button class="btn btn-primary font-white" type="button" id="close_search"><i class="fa fa-remove"></i></button>
+                        <div class="form-group col-md-8 col-xs-8" >
+                          <input placeholder="Buscar"  name="q"  class="form-control search-field" type="text">
+                          <div id="searchbox"></div>
+                        </div>
+                        <button class="btn btn-primary font-white" type="button" id="close_search"><i class="fa fa-remove"></i></button>
                         <button class="btn btn-primary font-white" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                     </form>
                 </div>

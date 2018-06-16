@@ -19,7 +19,20 @@ urlpatterns = [
            views.game,
            name='game'
     ),
- 
+    
+    url(r'^juego/rating/(?P<slug>[0-9A-Za-z-_]+)/{0,1}$',
+           views.game_rating,
+           name='game_rating'
+    ),
+    url(r'^juego/rate/(?P<slug>[0-9A-Za-z-_]+)/{0,1}$',
+           views.rate_game,
+           name='rate_game'
+    ),
+    
+    
+
+
+
 
     
 ]

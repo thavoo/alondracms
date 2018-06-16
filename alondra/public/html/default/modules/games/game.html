@@ -4,6 +4,7 @@
 {% load text_filters %}
 {% load humanize %} 
 {% load tz %}
+{% load loops_filters %}
 {% block content %}
 
 
@@ -17,7 +18,7 @@
             </div>
         </div>
         <div class="col-md-8">
-            <h1 class="title3 padding-20 border-left-5 text-left no-margin-left">{{gameinfo.title}}</h1>
+            <h1 class="title3 padding-20 border-left-5 text-left no-margin-left" >{{gameinfo.title}}</h1>
             <p class="paragraph padding-5 border-bottom recalculate-font-size no-border">{{gameinfo.description|get_markdown|safe}} </p>
         </div>
     </div>
@@ -72,7 +73,44 @@
             </tbody>
         </table>
     </div>
- 
+    <div>
+
+        
+      <div class="rating-block">
+          <h4>Rating de usuarios</h4>
+          <h5 class="bold padding-bottom-7"><span id="ratingvalue">0.0</span> <small>/ 5</small></h5>
+          <button  type="button" class="btn btn-default btn-grey  btn-sm ratingx" aria-label="Left Align">
+              <span class="fa fa-star" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-grey btn-sm ratingx" aria-label="Left Align">
+            <span class="fa fa-star" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-grey btn-sm ratingx" aria-label="Left Align">
+            <span class="fa fa-star" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-grey btn-sm ratingx" aria-label="Left Align">
+            <span class="fa fa-star" aria-hidden="true"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-grey btn-sm ratingx" aria-label="Left Align">
+            <span class="fa fa-star" aria-hidden="true"></span>
+          </button>
+      </div>
+      <div id="RattingUser">
+
+        <span class="font-bold"> Tu Rating</span>
+        <span id="stars">
+          <span class="rating btn btn-default btn-grey fa fa-star checked" id="star1"></span>
+          <span class="rating btn btn-default btn-grey fa fa-star" id="star2"></span>
+          <span class="rating btn btn-default btn-grey fa fa-star" id="star3"></span>
+          <span class="rating btn btn-default btn-grey fa fa-star" id="star4"></span>
+          <span class="rating btn btn-default btn-grey fa fa-star" id="star5"></span>
+        </span>
+        <button id="rategame" data-slug="{{slug}}" type="button" class="btn btn-default btn-grey btn-sm" aria-label="Left Align">
+          Votar
+        </button>
+
+      </div>
+    </div> 
   <div>
 
       <ul class="nav nav-tabs font-bold">
@@ -157,12 +195,42 @@
           </div>
       </div>
   </div>
-</div>       
-   
-     
+</div>      
+{% endblock %}
+{% block sidebar %}
+<aside class="col-md-4 visible-md-block visible-lg-block">
+  <div class="row append-widgets">
+  </div>
+  <h3 class="title3 padding-20 border-left-5-dark">Top Ranking</h3>
 
+  {% get_top_games_users as games %}
+    {% if games|length > 0 %}
+      {% for game in games%}
 
-         
-      
-
+      <div class="rating-block margin-bottom-10  small clearfix">
+        <div class=" ">
+          
+          </div>
+          <div class="col-md-6 no-padding ">
+            <a href="/juego/{{game.slug}}"><img src="{{game.poster}}" class="img-responsive" /></a>
+          </div>
+          <div class="col-md-6  ">
+            
+            <h6>{{game.title}}</h6>
+            <h5 class="bold">{{game.temperature2}}<small>/ 5</small></h5>
+              
+          </div>
+          
+           <div class=" no-pading col-md-12">
+            {% for star in 5|times%}
+             <button type="button" class="btn {% if star <= game.temperature %}btn-warning{% else %}btn-default{% endif %} btn-sm" aria-label="Left Align">
+               <span class="fa fa-star" aria-hidden="true"></span>
+             </button>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+  {% endif %}
+  
+</aside>
 {% endblock %}

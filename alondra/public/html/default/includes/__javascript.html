@@ -1,5 +1,7 @@
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109037117-1"></script>
+{% verbatim %}
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -12,7 +14,7 @@
 </script>
 
 <script id="newsLetterTemplate" type="text/x-jsrender">
-<div class="col-md-12 center-text-center no-padding" id="suscription">
+<div class="col-md-12 center-text-center no-padding margin-bottom-10 " id="suscription">
     <h6 class="title padding-20 border-left-5 text-left no-margin-left">Suscribete a nuestra newsletter</h6>
     <form id="newsletter">
         <div class="form-group">
@@ -20,18 +22,44 @@
                 <div class="input-group-btn"><button class="btn btn-warning" type="button" id="suscribe"><i class="glyphicon glyphicon-envelope"></i> suscribirse </button></div>
             </div>
         </div>
-        <p id="suscribed_error">El campo email es requerido. para suscribirse por favor ingresa una direccion de email valida</p>
+        <p id="suscribed_error" class="hide">El campo email es requerido. para suscribirse por favor ingresa una direccion de email valida</p>
         <p id="suscribed_pending">Suscribete y obten el mejor contenido semanal junto con informacion sobre ofertas de productos seleccionadas por nuestros mejores editores relacionadas con la industria de videojuegos.</p>
         <p id="suscribed_success" class="hide">Muchas Gracias por suscribirte te mantendremos informado sobre las novedades y noticias relacionadas con el mundo de videojuegos esperamos que te guste mucho la informacion proporcionada.<i class="glyphicon glyphicon-ok"></i></p>
     </form>
 </div>
 </script>
+<script id="SearchTemplate" type="text/x-jsrender">
+  <div class="searchbox open">
+    <table>
+        <tbody>
+          {{for items}}
+            <tr>
+                <td><img class="img-responsive" src="{{:thumbnail}}" /><td>
+                <td>
+                    <a href="/{{:slug}}" >{{:title}}</a>
+                    <span class="label label-warning">RECOMENDACIONES </span>
+                <td>
+            </tr>
+          {{/for}}
+        </tbody>
+    </table>
+  </div>
+</script>
+<script id="RattingSuccessMessageTemplate" type="text/x-jsrender">
+ <p>Gracias por votar este un maravilloso juego, esperamos que  <br> tu voto ayude a su ranking.</p>
+</script>
+<script id="RattingMessageTemplate" type="text/x-jsrender">
+ <p>Oops parece que ya has calificado este juego por favor intenta con otro</p>
+</script>
+
+{% endverbatim %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <!--<script src="//go.mobtrks.com/notice.php?p=1727107&interstitial=1"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js"></script>
-<script src="{{STATIC_URL}}js/js.cookie-2.2.0.min.js"></script>
 <script src="{{STATIC_URL}}js/jsrender.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.cookie.js"></script>
+<script src="{{ STATIC_URL }}js/jsrender.min.js"></script>
 <script src="{{STATIC_URL}}js/script.min.js"></script>

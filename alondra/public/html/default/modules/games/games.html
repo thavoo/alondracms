@@ -1,9 +1,11 @@
 {% extends "layouts/default.html" %}
 {% load posts_tags %}
+{% load game_tags %}
 {% load set_var %}
 {% load comment_tags %}
 {% load text_filters %}
 {% load humanize %} 
+{% load loops_filters %}
 {% load tz %}
 {% block content %}
 
@@ -47,8 +49,41 @@
     </div>
     {% endif %}
 </div>
-         
-      
-      
+{% endblock %}
+{% block sidebar %}
+<aside class="col-md-4 visible-md-block visible-lg-block">
+  <div class="row append-widgets">
+  </div>
+  <h3 class="title3 padding-20 border-left-5-dark">Top Ranking</h3>
 
+  {% get_top_games_users as games %}
+    {% if games|length > 0 %}
+      {% for game in games%}
+
+      <div class="rating-block margin-bottom-10  small clearfix">
+        <div class=" ">
+          
+          </div>
+          <div class="col-md-6 no-padding ">
+            <a href="/juego/{{game.slug}}"><img src="{{game.poster}}" class="img-responsive" /></a>
+          </div>
+          <div class="col-md-6  ">
+            
+            <h6>{{game.title}}</h6>
+            <h5 class="bold">{{game.temperature2}}<small>/ 5</small></h5>
+              
+          </div>
+          
+           <div class=" no-pading col-md-12">
+            {% for star in 5|times%}
+             <button type="button" class="btn {% if star <= game.temperature %}btn-warning{% else %}btn-default{% endif %} btn-sm" aria-label="Left Align">
+               <span class="fa fa-star" aria-hidden="true"></span>
+             </button>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+  {% endif %}
+  
+</aside>
 {% endblock %}
