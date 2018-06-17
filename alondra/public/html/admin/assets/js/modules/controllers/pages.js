@@ -4,55 +4,38 @@ define(['angular','clipboard'],function(angular,clipboard){
 	[ '$scope','$state','$translate','Pages',
 	  function ($scope,$state,$translate, Pages) 
 	  {
-
-	 	$scope.model = {'query':'',	'currentpage':1,'pages':1,};
+	 
+		$scope.model = {'query':'',	'currentpage':1,'pages':1,};
 	  	$scope.search = function()
 	  	{	
+	  		$scope.todos = [];
 	  		$scope.model.currentpage = 1;
 	  		if($scope.model.query.length > 0)
 	  		{
-	  			$scope.todos = [];
-	  			$scope.search_list(
-				    $scope.model.query,
-				    $scope.model.currentpage
-				);
-	  		
+	  			$scope.search_list();
 	  		}else
 	  		{
-	  			$scope.makeTodos($scope.model.currentpage); 
+	  			$scope.post_list();
 	  		}
 	  		
 	  	}
 
 
-		$scope.makeTodos = function(query)
+		$scope.makeTodos = function()
 		{
 			$scope.todos = [];
-			var query2 = typeof query === 'undefined';
-			if (query2 == false)
-			{
-				$scope.post_list($scope.model.currentpage);
-			}
-			else
-			{
-				if($scope.model.query.length > 0)
-				{
-					$scope.search_list(query,$scope.model.currentpage);
-				}else{
-					$scope.post_list($scope.model.currentpage);
-				}
-				
-			}
+			$scope.model.currentpage = 1;
+			$scope.post_list();
 		};
 
 
-
-		$scope.search_list = function(query,page)
+	
+		$scope.search_list = function()
 		{
 			
 			Pages.search({
-				'query':query,
-				'page':page,
+				'query': $scope.model.query,
+				'page':	$scope.model.currentpage,
 				'post_type':'page',
 			}).then(function successCallback(response)
 			{
@@ -76,10 +59,9 @@ define(['angular','clipboard'],function(angular,clipboard){
 
 
 
-		$scope.post_list = function(page)
+		$scope.post_list = function()
 		{
-
-		    Pages.list(page).then(function successCallback(response)
+		    Pages.list($scope.model.currentpage).then(function successCallback(response)
 		    {
 		    	$scope.model.pages = response.data.pages;
 	         	angular.forEach(response.data.items, function(value, key)
@@ -96,8 +78,6 @@ define(['angular','clipboard'],function(angular,clipboard){
 				},$scope.todos);
 				
         	}, function errorCallback(response) {});
-
-
 		};
 
 		$scope.DELETE = function(id)
@@ -116,25 +96,19 @@ define(['angular','clipboard'],function(angular,clipboard){
 			
 				if ($scope.model.query.length > 0)
 				{
-				    $scope.search_list(
-				    	$scope.model.query,
-				    	$scope.model.currentpage
-				    );
+				    $scope.search_list();
 				}
 				
 				if ($scope.model.query.length == 0)
 				{
-				    $scope.post_list(
-				    	$scope.model.currentpage
-				    );
+				    $scope.post_list();
 				}
-				
-				
 			}
 		}
 		
 
 		$scope.makeTodos();
+		
 
 	}]).controller('PagesEditCtrl', 
 	[ '$scope','$state','$translate','$stateParams','Pages','Media',

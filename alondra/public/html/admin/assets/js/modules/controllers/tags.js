@@ -5,51 +5,79 @@ define(['angular'],function(angular){
 	  function ($scope,$state,$translate, Tags) 
 	  {
 
-	  	$scope.filteredTodos = [];
-	  	$scope.itemsPerPage = 8;
-	  	$scope.currentPage = 1;
-		$scope.model = {'query':''};
+		$scope.model = {'query':'',	'currentpage':1,'pages':1,};
 	  	$scope.search = function()
-	  	{	if($scope.model.query.length > 0)
+	  	{	
+	  		$scope.todos = [];
+	  		$scope.model.currentpage = 1;
+	  		if($scope.model.query.length > 0)
 	  		{
-	  			$scope.todos = $scope.todos.filter(function(item){
-	  			re = new RegExp($scope.model.query);
-
-				return re.test(item.title) ;
-				});
-				$scope.figureOutTodosToDisplay(1);
+	  			$scope.search_list();
 	  		}else
 	  		{
-	  			$scope.makeTodos(); 
+	  			$scope.post_list();
 	  		}
 	  		
 	  	}
 
+
 		$scope.makeTodos = function()
 		{
 			$scope.todos = [];
-			$scope.filteredTodos = [];
-		    Tags.list().then(function successCallback(response)
+			$scope.model.currentpage = 1;
+			$scope.post_list();
+		};
+
+
+	
+		$scope.search_list = function()
+		{
+			
+			Tags.search({
+				'query': $scope.model.query,
+				'page':	$scope.model.currentpage,
+				'post_type':'Tags',
+			}).then(function successCallback(response)
+			{
+			    $scope.model.pages = response.data.pages;
+				
+			    angular.forEach(response.data.items, function(value, key)
+			    {
+					this.push({
+					 	id: value.id,
+					    title: value.name,
+					    img: '/admin/assets/img/logo.jpg',
+					    status: value.publish,
+					    created: value.created,
+					    modified: value.modified,
+					});
+					   	
+				},$scope.todos);
+	       	});
+
+		}
+
+
+
+		$scope.post_list = function()
+		{
+		    Tags.list($scope.model.currentpage).then(function successCallback(response)
 		    {
-	         	angular.forEach(response.data, function(value, key){
+		    	$scope.model.pages = response.data.pages;
+	         	angular.forEach(response.data.items, function(value, key)
+	         	{
 				 	this.push({
 			        	id: value.id,
 				        title: value.name,
+				        img: '/admin/assets/img/logo.jpg',
 				        status: value.publish,
+				        created: value.created,
+				        modified: value.modified,
 			      	});
-			      	if(response.data.length-1 >= key)
-			      	{
-			      		$scope.figureOutTodosToDisplay(1);
-			      	}
 			      	
 				},$scope.todos);
-				if(response.data.length > 0)
-				{
-					$scope.figureOutTodosToDisplay(1);
-				}
+				
         	}, function errorCallback(response) {});
-
-
 		};
 
 		$scope.DELETE = function(id)
@@ -59,28 +87,27 @@ define(['angular'],function(angular){
 			}, function errorCallback(response) {});
 		}
 
-		$scope.figureOutTodosToDisplay = function(page) 
+
+		$scope.loadmore = function()
 		{
-		    $scope.currentPage  = page
-		    var begin = (($scope.currentPage - 1) * $scope.itemsPerPage);
-		    var end = begin + $scope.itemsPerPage;
-		    $scope.filteredTodos = $scope.todos.slice(begin, end);
-		    //reset items each pagination
-		 
-	    	if($scope.HasallItems!=null)
-	    	{
-	      		$scope.HasallItems = false;
-	    	}
-	  	};
+			if($scope.model.currentpage < $scope.model.pages)
+			{
+				$scope.model.currentpage ++;
+			
+				if ($scope.model.query.length > 0)
+				{
+				    $scope.search_list();
+				}
+				
+				if ($scope.model.query.length == 0)
+				{
+				    $scope.post_list();
+				}
+			}
+		}
+		
 
-		$scope.makeTodos(); 
-		$scope.figureOutTodosToDisplay(1);
-
-		$scope.pageChanged =  function(page) 
-		{
-		  $scope.figureOutTodosToDisplay(page);
-		};
-
+		$scope.makeTodos();
 	}]).controller('TagsEditCtrl', 
 	[ '$scope','$state','$translate','$stateParams','Tags',
 	  function ($scope,$state,$translate,$stateParams,Tags) 

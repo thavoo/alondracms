@@ -19,7 +19,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ObjectDoesNotExist
-
+from utilities.paginator import paginator
 
 class GlobalyTagsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -35,18 +35,78 @@ class GlobalyTagsSerializer(serializers.HyperlinkedModelSerializer):
             'modified',
         )
 
-@api_view(['GET'])
-@permission_classes((IsAuthenticated,))
+@api_view(['POST'])
 def tag_list(request):
-
-    if request.method == 'GET':
-        tags = GlobalyTags.objects.all()
+        
+    if request.method == 'POST':
+        page = int(request.data.get('page',1))
+        posts = paginator(
+                page, 
+                GlobalyTags.objects.all().order_by('-id'),
+                100
+            )
+        
         serializer = GlobalyTagsSerializer(
-            tags, 
+            posts, 
             many=True,
             context={'request': request}
         )
-        return Response(serializer.data)
+        next_page = 0
+        previous_page = 0
+        if posts.has_next():
+            next_page = posts.next_page_number()
+        if posts.has_previous():
+            previous_page = posts.previous_page_number()
+
+        return Response({
+            'pages':posts.paginator.num_pages,
+            'items':serializer.data,
+            'next_page':next_page,
+            'previous_page':previous_page,
+        })
+
+@api_view(['POST'])
+def search_list(request):
+        
+    if request.method == 'POST':
+       
+        query = request.data.get('query',None)
+        page = int(request.data.get('page',1))
+      
+        f1 = Q()
+
+        if(query is not None):
+            f1 = Q(name__icontains=query)
+        posts = paginator(
+                page, 
+                GlobalyTags.objects.filter(f1).order_by('-id'),
+                100
+            )
+
+         
+        serializer = GlobalyTagsSerializer(
+            posts, 
+            many=True,
+            context={'request': request}
+        )
+        next_page = 0
+        previous_page = 0
+        if posts.has_next():
+            next_page = posts.next_page_number()
+        if posts.has_previous():
+            previous_page = posts.previous_page_number()
+
+        return Response({
+            'pages':posts.paginator.num_pages,
+            'items':serializer.data,
+            'next_page':next_page,
+            'previous_page':previous_page,
+        })
+    return Response(
+                status=status.HTTP_204_NO_CONTENT
+            )
+
+
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))

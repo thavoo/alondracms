@@ -39,11 +39,11 @@ angular.module('app.services.pages', [] )
                 'data': {'post_type':'page','page':page}              
             });
         },
-        'search': function(query,page){
+        'search': function(data){
             return this.request({
                 'method': "POST",
                 'url': "/posts/search/",
-                'data': {'post_type':'page','page':page,'query':query}              
+                'data': data            
             });
         },
         'New': function(data){

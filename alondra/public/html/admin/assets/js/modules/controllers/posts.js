@@ -9,51 +9,35 @@ define(['angular','clipboard'],function(angular,clipboard){
 		$scope.model = {'query':'',	'currentpage':1,'pages':1,};
 	  	$scope.search = function()
 	  	{	
+	  		$scope.todos = [];
 	  		$scope.model.currentpage = 1;
 	  		if($scope.model.query.length > 0)
 	  		{
-	  			$scope.todos = [];
-	  			$scope.search_list(
-				    $scope.model.query,
-				    $scope.model.currentpage
-				);
-	  		
+	  			$scope.search_list();
 	  		}else
 	  		{
-	  			$scope.makeTodos($scope.model.currentpage); 
+	  			$scope.post_list();
 	  		}
 	  		
 	  	}
 
 
-	$scope.makeTodos = function(query)
+		$scope.makeTodos = function()
 		{
 			$scope.todos = [];
-			var query2 = typeof query === 'undefined';
-			if (query2 == false)
-			{
-				$scope.post_list($scope.model.currentpage);
-			}
-			else
-			{
-				if($scope.model.query.length > 0)
-				{
-					$scope.search_list(query,$scope.model.currentpage);
-				}else{
-					$scope.post_list($scope.model.currentpage);
-				}
-				
-			}
+			$scope.model.currentpage = 1;
+			$scope.post_list();
 		};
 
 
-		$scope.search_list = function(query,page)
+	
+		$scope.search_list = function()
 		{
 			
 			Posts.search({
-				'query':query,
-				'page':page,
-				'post_type':'post',
+				'query': $scope.model.query,
+				'page':	$scope.model.currentpage,
+				'post_type':'posts',
 			}).then(function successCallback(response)
 			{
 			    $scope.model.pages = response.data.pages;
@@ -76,10 +60,9 @@ define(['angular','clipboard'],function(angular,clipboard){
 
 
 
-		$scope.post_list = function(page)
+		$scope.post_list = function()
 		{
-
-		    Posts.list(page).then(function successCallback(response)
+		    Posts.list($scope.model.currentpage).then(function successCallback(response)
 		    {
 		    	$scope.model.pages = response.data.pages;
 	         	angular.forEach(response.data.items, function(value, key)
@@ -96,8 +79,6 @@ define(['angular','clipboard'],function(angular,clipboard){
 				},$scope.todos);
 				
         	}, function errorCallback(response) {});
-
-
 		};
 
 		$scope.DELETE = function(id)
@@ -116,20 +97,13 @@ define(['angular','clipboard'],function(angular,clipboard){
 			
 				if ($scope.model.query.length > 0)
 				{
-				    $scope.search_list(
-				    	$scope.model.query,
-				    	$scope.model.currentpage
-				    );
+				    $scope.search_list();
 				}
 				
 				if ($scope.model.query.length == 0)
 				{
-				    $scope.post_list(
-				    	$scope.model.currentpage
-				    );
+				    $scope.post_list();
 				}
-				
-				
 			}
 		}
 		

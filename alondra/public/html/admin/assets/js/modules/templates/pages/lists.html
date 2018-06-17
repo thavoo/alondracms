@@ -33,7 +33,7 @@
 	                    
 	                        <div class="input-group">
 	                            <div class="input-group-addon"><span class="fa fa-search"></span></div>
-	                            <input type="text" ng-model="model.query" class="form-control" placeholder="{{ 'SEARCH_LABEL' | translate}} {{ 'POST_PLURAL_LABEL' | translate}}">
+	                            <input type="text" ng-model="model.query"   ng-keyup="search()" class="form-control" placeholder="{{ 'SEARCH_LABEL' | translate}} {{ 'POST_PLURAL_LABEL' | translate}}">
 	                            <span class="input-group-btn">
 					                <button  ng-click="search()" class="btn btn-primary" type="button">Go!</button>
 					            </span>

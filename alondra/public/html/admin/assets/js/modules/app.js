@@ -94,8 +94,8 @@ define(
       ]);
     
       app.config([
-      '$stateProvider', '$urlRouterProvider',"$locationProvider",'$translateProvider','$httpProvider','$cookiesProvider',
-      function($stateProvider, $urlRouterProvider, $locationProvider,$translateProvider,$httpProvider,$cookiesProvider)
+      '$stateProvider', '$urlRouterProvider',"$locationProvider",'$translateProvider','$httpProvider','$cookiesProvider','$qProvider',
+      function($stateProvider, $urlRouterProvider, $locationProvider,$translateProvider,$httpProvider,$cookiesProvider,$qProvider)
       {
         $urlRouterProvider.otherwise('/login');
         $cookiesProvider.defaults.path = "/";
@@ -103,6 +103,7 @@ define(
         $translateProvider.preferredLanguage('es');
         $httpProvider.defaults.xsrfCookieName = 'csrftoken';
         $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+        $qProvider.errorOnUnhandledRejections(false);
       }]);
       
       app.bootstrap = function () {

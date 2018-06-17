@@ -35,10 +35,17 @@ angular.module('app.services.tags', [] )
         },
         'list': function(){
             return this.request({
-                'method': "GET",
+                'method': "POST",
                 'url': "/tags/"              
             });
         },
+        'search': function(data){
+            return this.request({
+                'method': "POST",
+                'url': "/tags/search/",
+                'data': data            
+            });
+        },        
         'New': function(data){
             return this.request({
                 'method': "POST",

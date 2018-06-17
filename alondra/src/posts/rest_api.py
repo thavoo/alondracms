@@ -126,9 +126,6 @@ def search_list(request):
         f4 = Q(post_type=post_type)
         if(query is not None):
             f1 = Q(title__icontains=query)
-            if(query.isdigit() == True):
-                f1 = Q(id=int(query))
-        
         posts = paginator(
                 page, 
                 PostItem.objects.filter(f1 & f4).order_by('-id'),
