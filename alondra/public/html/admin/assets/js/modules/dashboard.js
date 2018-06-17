@@ -12,6 +12,7 @@ require.config({
       "jquery-jvectormap-world-mill-en": "vendor/dashboard/jvectormap/jquery-jvectormap-world-mill-en",
       "jquery-jvectormap-us-aea-en": "vendor/dashboard/jvectormap/jquery-jvectormap-us-aea-en", 
       "d3": "vendor/dashboard/rickshaw/d3.v3", 
+      "customscrollbar": "vendor/dashboard/customscrollbar/jquery.mCustomScrollbar.min", 
       "rickshaw": "vendor/dashboard/rickshaw/rickshaw.min", 
       "bootstrap": "vendor/dashboard/bootstrap/bootstrap.min", 
       "dropzone": "vendor/dashboard/dropzone/dropzone", 
@@ -29,6 +30,7 @@ require.config({
             'jquery-jvectormap-world-mill-en',
             'jquery-jvectormap-us-aea-en',
             'rickshaw',
+            'customscrollbar',
             'jquery-jvectormap',
             'jquery-ui',
             'bootstrap',
@@ -74,6 +76,10 @@ require.config({
         'cropper': {
             deps: ['jquery']
         },     
+        'customscrollbar': {
+            deps: ['jquery']
+        },     
+
 
         'app_boostrap': {
             deps: ['jquery','bootstrap']

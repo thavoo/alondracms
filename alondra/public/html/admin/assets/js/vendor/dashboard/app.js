@@ -52,7 +52,7 @@ var app = {
         $(".app-sidebar-left-closed .app-sidebar, .app-sidebar-right-closed .app-sidebar").css("display","none");
         
         $("[data-sidebar-toggle]").on("click",function(e){
-            alert(1)
+       
             e.preventDefault();
             var app_sidebar = $($(this).data("sidebar-toggle")),
                 app_sidebar_direction = app_sidebar.hasClass("dir-left") ? 'left' : 'right',
@@ -75,8 +75,8 @@ var app = {
             
             return false;
         });
-        $("[data-sidebar-minimize]").on("click",function(){
-            
+        $("[data-sidebar-minimize]").on("click",function(e){
+             e.preventDefault();
             if($(window).width() < app.settings.screen_md) return false;
             
             var app_sidebar = $($(this).data("sidebar-minimize")),
