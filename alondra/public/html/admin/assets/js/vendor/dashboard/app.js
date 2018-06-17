@@ -51,7 +51,9 @@ var app = {
         // sidebar actions        
         $(".app-sidebar-left-closed .app-sidebar, .app-sidebar-right-closed .app-sidebar").css("display","none");
         
-        $("[data-sidebar-toggle]").on("click",function(){
+        $("[data-sidebar-toggle]").on("click",function(e){
+            alert(1)
+            e.preventDefault();
             var app_sidebar = $($(this).data("sidebar-toggle")),
                 app_sidebar_direction = app_sidebar.hasClass("dir-left") ? 'left' : 'right',
                 app_container = app_sidebar.parent(".app-container");
@@ -923,13 +925,16 @@ var app = {
         
         return maxWidth;
     },
-    _getHeaderHeight: function(){        
+    _getHeaderHeight: function(){    
+        this.header = $(".app > .app-header").length > 0 ? $(".app > .app-header") : false;
         return this.header ? this.header.outerHeight(true) : 0;        
     },
-    _getFooterHeight: function(){        
+    _getFooterHeight: function(){  
+        this.footer = $(".app > .app-footer").length > 0 ? $(".app > .app-footer") : false;                
         return this.footer ? this.footer.outerHeight(true) : 0;
     },
     _getCustomOffset: function(){
+        this.app = $(".app");
         return this.app.data("offset-height") ? this.app.data("offset-height") : 0;
     },
     _delayBeforeFire: function(){
