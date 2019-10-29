@@ -69,7 +69,7 @@ pytz==2017.2
 qrcode==4.0.4
 redis==2.10.5
 request==0.0.2
-requests==2.8.1
+requests==2.20.0
 requests-oauthlib==0.6.1
 rsa==3.4.2
 simplejson==3.8.0
