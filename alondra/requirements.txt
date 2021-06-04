@@ -7,7 +7,7 @@ celery==3.1.18
 cffi==1.9.1
 cryptography==3.2
 dj-database-url==0.3.0
-Django==1.11.23
+Django==1.11.29
 django-allauth==0.29.0
 django-appconf==1.0.1
 django-celery==3.1.16
